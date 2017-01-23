@@ -1,0 +1,249 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+
+
+}
+
+body {
+	background-color: #455A64;
+
+
+}
+
+/*===================START OF THE SIMPLE NAV BAR ===================================*/
+#header {
+	width: 100%;
+	height: 80px;
+	background: #37474F;
+
+}
+
+#nav {
+	width: 100%;
+	height: 80px;
+	border: 1px solid white;
+	float:right;
+
+
+}
+
+#nav>li {
+
+width: 20%;
+list-style: none;
+float: left;
+
+}
+
+li>a {
+
+	display: block;
+	color: white;
+	line-height: 80px;
+	text-align: center;
+	text-decoration: none;
+	font-family: 'Raleway', sans-serif;
+
+}
+li>a:hover {
+
+	background: #546E7A;
+
+}
+
+
+/*===============OUR SERVICES =======================*/
+
+
+.ourservicestext{
+font-family: 'Raleway', sans-serif;
+font-size: 30px;
+/*padding-left: 5px;*/
+color: white;
+border-bottom: solid white .5px;
+margin-left: 17px;
+width: 15%;
+
+}
+
+
+.box1,.box2,.box3 {
+	
+	width: 32%;
+	height: 400px;
+	display: inline-block;
+	text-align: center;
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+	color: white;
+	vertical-align: top
+}
+
+.paragraphtext {
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+}
+
+
+.today {
+
+width: 100%;
+height: 400px;
+background-color: white;
+
+vertical-align: top
+
+}
+
+.gamestart {
+	width: 100%;
+	text-align: center;
+}
+
+.hidden {
+	display: none;
+
+}
+
+
+
+
+/*====================CSS FOR THE QUIZ GAME ====================*/
+
+
+
+.firstdiv {
+
+	text-align: center;
+	padding-top: 50px;
+	font-family: 'Raleway', sans-serif;
+	font-size: 20px; 
+}
+
+
+.firstdiv>button {
+background: #428BCA;
+    color: #fff;
+ 
+    font-size: 20px;
+    height: 60px;
+    width: 150px;
+    line-height: 60px;
+    margin: 25px 25px;
+    text-align: center;
+    border: 0;
+    transition: all 0.3s ease 0s;
+    border-radius: 25px;
+    font-family: 'Raleway', sans-serif;
+
+}
+
+
+.firstdiv>button:hover {
+
+	background: green;
+	
+
+}
+
+
+#questions {
+
+	text-align: center;
+	padding-top: 50px;
+	font-family: 'Raleway', sans-serif;
+	font-size: 20px; 
+}
+
+
+
+
+
+
+#questions>form>button {
+ border-radius: 25px;
+ height: 30px;
+ width: 100px;
+ background-color: green;
+ box-shadow: none;	
+ color: white;
+font-family: 'Raleway', sans-serif;
+
+
+}
+
+/* =================================THIS IS WHERE THE CSS STARTS OF THE API SECTION =============================================*/
+.api {
+
+	width: 100%;
+	height: 400px;
+}
+
+
+.js-search-results{
+	font-family: 'Raleway', sans-serif;
+}
+
+.js-search-results1,.js-search-results2,.js-search-results3,.js-search-results4 {
+
+	width: 20%;
+
+	height: 20%;
+	display: inline-block;
+	text-align: center;
+	margin-left: 0.5%;
+	margin-right: 0.5%;
+	color: white;
+	vertical-align: top;
+	font-family: 'Raleway', sans-serif;
+	
+
+
+}
+
+.enterdata {
+font-family: 'Raleway', sans-serif;
+text-align: center;
+
+}
+.title3 {
+font-family: 'Raleway', sans-serif;
+
+	text-align: left;
+	padding-top: 1%;
+	color: white;
+
+}
+
+#apiinput {
+height: 30px;
+ width: 200px;
+ border-radius: 25px;
+ border: solid white;
+
+}
+#apibutton {
+border-radius: 25px;
+ height: 30px;
+ width: 70px;
+ background-color: green;
+ border: solid green;
+
+	
+ color: white;
+font-family: 'Raleway', sans-serif;
+}
+
+
+#enterdatashit {
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+
+}
+
+
+
+
+

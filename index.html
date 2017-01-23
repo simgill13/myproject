@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <!--  <link rel="stylesheet" type="text/css" href="grid.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100" rel="stylesheet">
+    <link href="css/hover.css" rel="stylesheet" media="all">
+</head>
+
+<body>
+    <div id="header">
+        <ul id="nav">
+            <li id="Home"> <a href="#"> Home </a> </li>
+            <li> <a  href="#services"> Services </a> </li>
+            <li> <a class="button"href="#"> Products </a> </li>
+            <li> <a class="aboutbutton" href="#"> About </a> </li>
+            <li> <a class="loginbutton" href="#"> Log In </a> </li>
+        </ul>
+    </div>
+    
+    <video id="beach" autoplay="true" loop="true" width="100%" src="sample.webm" type="video/webm">
+    </video>
+
+    <br>
+    <br>
+    <h1 class="ourservicestext">  Our Services</h1>
+    <br>
+
+<div class="row1"> 
+    <div id="services" class="box1">
+        <img src="conversion-icon.jpg" width="100%" height="67%">
+        <p class="paragraphtext">You want money? Our company will pretend to make you more money. Guaranteed!!</p>
+    </div>
+    <div class="box2">
+        <img src="growth-statistics-icon.jpg" width="100%" height="67%">
+        <p class="paragraphtext">You like seeing upward trending graphs? Our company will create you upward trending graphs, regardless of acutal projections. Guaranteed!!.</p>
+    </div>
+    <div class="box3"> <img src="ecommerce-cart-icon.jpg" width="100%" height="67%">
+        <p class="paragraphtext">You like shopping? We will use the money you give us and shop. Guaranteed!!.</p>
+    </div>
+
+</div>
+
+<!-- =============================Game area==================================== -->
+<div class="today">
+    <div class="firstdiv">
+        <h1 id="game">Game</h1>
+        <p id="gametext">While you are here, why not play a game. </p>
+        <br>
+        <button id="startgame"> Lets do this </button>
+    </div>
+    <div id="questions" class="hidden">
+        <h4 class="progress"></h4>
+        <h4 class="score"> </h4>
+        <br>
+        <span id="mainquestion" class="question"></span>
+        <form id="form">
+            <input type="radio" name="selection" value="0">
+            <label for="selection" class="first-answer"></label>
+            <br>
+            <input type="radio" name="selection" value="1">
+            <label for="selection" class="second-answer"></label>
+            <br>
+            <input type="radio" name="selection" value="2">
+            <label for="selection" class="third-answer"></label>
+            <br>
+            <input type="radio" name="selection" value="3">
+            <label for="selection" class="fourth-answer"></label>
+            <br>
+            <br>
+            <button id="submit" type="submit"> Submit </button>
+        </form>
+        <button id="Loopgame"> Play Again? </button>
+    </div>
+</div>
+
+<!-- ============================================================================ -->
+
+
+
+<div class="api">
+    <h1 class="title3">BRITISH COLUMBIA HOUSING  </h1>
+    <p class="title3"> WOULD LIKE TO KNOW HOW MANY HOMES ARE BEING SOLD IN B.C EACH MONTH?</p>
+    <br>
+    <br>
+    <p class="enterdata">Enter Date (i.e - 1990-03-31 )</p>
+    <br>
+
+    <form id="enterdatashit" action="#" class="js-search-form">
+        <label for="query"></label>
+        <input id="apiinput" type="text" class="js-query">
+        <button id="apibutton" type="submit">Search</button>
+    </form>
+    <br>
+    <div id="results23" class="js-search-results23"></div>
+    <div id="resultss" class="js-search-results"></div>
+    <br>
+    <div id="results1" class="js-search-results1"></div>
+    <div id="results2" class="js-search-results2"></div>
+     <div id="results3" class="js-search-results3"></div>
+     <div id="results4" class="js-search-results4"></div>
+</div>
+
+
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</body>
+
+</html>
