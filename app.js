@@ -12,6 +12,7 @@ $('.aboutbutton').click(function(){
 
 $('.loginbutton').click(function(){   
 	alert("You have clicked the Login button, at this moment I don't do shit") 
+	
 	  });﻿
 
 
@@ -157,17 +158,10 @@ function loopsthegame (){
 
 
 
-
-
-
-
-
-
-// ======================    CONNECTING TO AN API ===================================
+// ======================    CONNECTING TO AN QUANDL API ===================================
 
 
 var OMDB_BASE_URL = 'https://www.quandl.com/api/v3/datasets/CMHC/HSDAA_BC.json?api_key=Uu3sLNQAgkN4NCQsFoGH';
-
 function getDataFromApi(searchTerm, callback) {
      var query = { }
   $.getJSON(OMDB_BASE_URL, query, callback);
@@ -178,20 +172,16 @@ function displayOMDBSearchData(data) {
 
     var noResults = true;
     for (var i = 0; i < data.dataset.data.length; i++) {
-        for (var j = 0; j < data.dataset.data[i].length; j++) {
-            if (data.dataset.data[i][j] === query) {
+            if (data.dataset.data[i][0] === query) {
 
 				
                 $('.js-search-results').html('Total Homes sold    ' + data.dataset.data[i][5]);
-                $('.js-search-results1').html('Total Single Family Homes sold   ' + data.dataset.data[i][1] + '<img src="Icon_home_renovation-01.png" />');
+                $('.js-search-results1').html('Total Single Family Homes sold   ' + data.dataset.data[i][1] + '<img src="Icon_home_renovation-01.png" />' );
                 $('.js-search-results2').html('Total Semi-Detatched Homes sold   ' + data.dataset.data[i][2] + '<img src="Icon_home_renovation-02.png" />');
                 $('.js-search-results3').html('Total Apartments Homes sold   ' + data.dataset.data[i][4] + '<img src="Icon_home_renovation-04.png" />');
                 $('.js-search-results4').html('Total number of Row Homes sold ' + data.dataset.data[i][3] + '<img src="Icon_home_renovation-03.png" />');
                 noResults = false;
             }
-
-
-        }
 
     }
     if (noResults == true) { 
@@ -200,14 +190,9 @@ function displayOMDBSearchData(data) {
                 $('.js-search-results1').html(' ');
                 $('.js-search-results2').html(' ');
                 $('.js-search-results3').html(' ');
-                $('.js-search-results4').html( ' ');
+                $('.js-search-results4').html(' ');
 
-    }
-
-
-
-
-}
+    }}
 
 
 function watchSubmit() {
@@ -223,7 +208,73 @@ watchSubmit();
 
 
 
+// =========================== SHOPPING LIST APP EXERSICE =====================================
 
 
+ $(document).ready(function() {
+  var state = {
+    items: []
+  }
 
+  // add item function
+  function addItem(state, itemObj) {
+    state.items.push(itemObj);
+  }
+  // remove item function
+  function removeItem(state, itemName) {
+    var itemsArray = state.items;
+    var index;
+    for (var i = 0; i < itemsArray.length; i++) {
+      if (itemsArray[i].name === itemName) {
+        index = i;
+      }
+    }
+    itemsArray.splice(index,1);
+  }
+  // render list function
+  function renderList(state, JQueryElement) {
+    var renderedHTML = state.items.map(function(item) {
+      return '<li> <span class="shopping-item">' + item.name + '</span> \
+                <div class="shopping-item-controls">  \
+                  <button class="shopping-item-toggle"> \
+                    <span class="button-label">check</span> \
+                  </button> \
+                  <button class="shopping-item-delete"> \
+                  <span class="button-label">delete</span> \
+                  </button> \
+              </div> \
+              </li>'
 
+    });
+    JQueryElement.html(renderedHTML);
+    $('#shopping-list-entry').val('')
+  }
+
+  $('#js-shopping-list-form').on('submit keypress', function(event) {
+     var type = event.type;
+     var keyCode = event.which
+     if (type === 'keypress' && keyCode === 13 || type === 'submit') {
+       event.preventDefault();
+       var itemName = $('#shopping-list-entry').val(); // ships
+       var shoppingItem = {
+         name: itemName,
+         checked: false
+       }
+       if (itemName) {
+         addItem(state, shoppingItem);
+         renderList(state, $('.shopping-list'));
+       }
+     }
+  });
+
+  $('ul').on('click', 'button.shopping-item-toggle', function(event){
+    $(this).closest('li').find('.shopping-item').toggleClass('shopping-item__checked');
+  });
+
+  $('ul').on('click', 'button.shopping-item-delete', function(event){
+    var itemName = $(this).closest('li').find('.shopping-item').text();
+    removeItem(state, itemName);
+    renderList(state, $('.shopping-list'));
+  });
+
+});
