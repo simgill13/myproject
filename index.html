@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" href="circle.css">
+
     <!--  <link rel="stylesheet" type="text/css" href="grid.css"> -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100" rel="stylesheet">
     <link href="css/hover.css" rel="stylesheet" media="all">
@@ -13,115 +15,127 @@
 
 <body>
     <div id="header">
-        <ul id="nav">
-            <li id="Home"> <a href="#"> Home </a> </li>
-            <li> <a  href="#services"> Intrests </a> </li>
+
+         <ul id="nav">
+
+            <li> <a  href="#services"> Contact </a> </li>
             <li> <a class="button"href="#"> Profolio </a> </li>
-            <li> <a class="aboutbutton" href="#"> About </a> </li>
-           
+            <li> <a class="aboutbutton" href="#"> About </a> </li>    
         </ul>
     </div>
-    
-    <video class="video" id="beach" autoplay="true" loop="true" width="100%" src="sample.webm" type="video/webm">
-    
-    </video>
-
+   
+    <div class="video-spot">
+        <video class="video" id="beach" autoplay="true" loop="true" width="100%"  src="fourth.webm" type="video/webm"></video>
+        <h1 class="shadowdude"><span class="hello shadowdude"> Hello</span></h1>
+        <h2 class="shadowdude">I'm Simran, a full-Stack Developer</h2>
+        <h3 class="shadowdude">based in San Jose CA.</h3>      
+    </div>
+   
     <br>
-    <br>
-    <h1 class="ourservicestext">  Projects</h1>
+    <h1 class="title3"> My Work </h1>
     <br>
 
 <div class="row1"> 
     <div id="services" class="box1">
-        <img src="conversion-icon.jpg" width="100%" height="67%">
-        <p class="paragraphtext">Virtual Vacay</p>
-    </div>
-    <div class="box2">
-        <img src="growth-statistics-icon.jpg" width="100%" height="67%">
-        <p class="paragraphtext">DisCover Ios App.</p>
-    </div>
-    <div class="box3"> <img src="ecommerce-cart-icon.jpg" width="100%" height="67%">
-        <p class="paragraphtext">Project 3.</p>
+        <img class="fs" src="virtualvacay.png" width="100%" height="67%">
+        <h4 class="paragraphtext">Virtual Vacay</h4>
+<!--         <p class="paragraphtext">Explore the world and sounds</p> -->
+    </div><div class="box2">
+        <img src="discover.png"  width="50%" height="67%">
+        <h4 class="paragraphtext">DisCover Ios App.</h4>
+<!--          <p class="paragraphtext">Find your carrer path.</p>  -->    
+    </div><div class="box3"> <img src="virtualvacay.png"  width="100%" height="67%">
+        <h4 class="paragraphtext">Project 3</h4>
+<!--          <p class="paragraphtext">Explore the world and sounds</p> -->
+         
     </div>
 
 </div>
 
-<!-- =============================Game area==================================== -->
-<div class="today">
-    <div class="firstdiv">
-        <h1 id="game">Game</h1>
-        <p id="gametext">While you are here, why not play a game. </p>
-        <br>
-        <button id="startgame"> Lets do this </button>
-    </div>
-    <div id="questions" class="hidden">
-        <h4 class="progress"></h4>
-        <h4 class="score"> </h4>
-        <br>
-        <span id="mainquestion" class="question"></span>
-        <form id="form">
-            <input type="radio" name="selection" value="0">
-            <label for="selection" class="first-answer"></label>
-            <br>
-            <input type="radio" name="selection" value="1">
-            <label for="selection" class="second-answer"></label>
-            <br>
-            <input type="radio" name="selection" value="2">
-            <label for="selection" class="third-answer"></label>
-            <br>
-            <input type="radio" name="selection" value="3">
-            <label for="selection" class="fourth-answer"></label>
-            <br>
-            <br>
-            <button id="submit" type="submit"> Submit </button>
-        </form>
-        <button id="Loopgame"> Play Again? </button>
-    </div>
+<div class="traversebuttons"> 
+    <button id="btn1" class="btn1 btn1color">V.V</button>
+    <button class="btn2">IOS App</button>
+    <button class="btn3">Pr</button>
+</div>
+<!-- =============================bars graphsarea==================================== -->
+
+<div class="today">   
+    <div id="project1pic" class=" picture">
+        <h2 class="paragraphtext apptext">Virtual Vacay</h2>
+        <p class="paragraphtext">Explore the world and sounds</p>
+    </div><div id="project1description" class=" description">
+        <h3 class="paragraphtextblack projectDescription">  Built on  the React js framwork. It utlizes the SoundCloud Api(widget)and MondgoDB to house the data.</h3>
+         <p class="paragraphtextblack">Technologies used.</p>
+        <a href="https://calm-shore-18628.herokuapp.com/#/" target="_blank"> Demo</a>
+         <a href="https://calm-shore-18628.herokuapp.com/#/" target="_blank"> GitHub</a>
+       </div>
+       <div id="secondprojectpic" class=" picture hidden">
+        <h2 class="paragraphtext apptext">DisCover IOS App</h2>
+        <p class="paragraphtext">Find yourself the right carrer</p>
+    </div><div id="secondprojectdes" class=" description hidden">
+        <h3 class="paragraphtextblack projectDescription">  Built on  the ReactNative framwork. It more description .</h3>
+         <p class="paragraphtextblack">Technologies used.</p>
+        <a href="https://calm-shore-18628.herokuapp.com/#/" target="_blank"> Demo</a>
+         <a href="https://calm-shore-18628.herokuapp.com/#/" target="_blank"> GitHub</a>
+       </div>
+       <div id="thirdprojectpic" class="picture hidden">
+        <h2 class="paragraphtext apptext">project third</h2>
+        <p class="paragraphtext">Description of the thrid projects</p>
+    </div><div id="thirdprojectdes" class=" description hidden">
+        <h3 class="paragraphtextblack projectDescription">  Built on  the React js framwork. It utlizes the SoundCloud Api(widget)and MondgoDB to house the data.</h3>
+         <p class="paragraphtextblack">Technologies used.</p>
+        <a href="https://calm-shore-18628.herokuapp.com/#/" target="_blank"> Demo</a>
+         <a href="https://calm-shore-18628.herokuapp.com/#/" target="_blank"> GitHub</a>
+       </div>
 </div>
 
 <!-- ============================================================================ -->
 
 
 
-<div class="api">
-    <h1 class="title3">My Interests  </h1>
-    <p class="title3"> The things that interest me are </p>
-    <br>
-    <br>
-    <p class="enterdata">Enter Date (i.e - 1990-03-31 )</p>
-    <br>
+<div class="aboutme">
+    <h1 class="title3">About Me </h1>
+    <div class="aboutmetext">
+        <p> I'm Simran, a full stack developer based in San Jose, CA. A little bit about myself, before becoming a devepoler, I  worked as an Lead Information Architect for Hilton's web/mobile division and for National MI, a leading priviate mortgage insurance company. </p>
+        <p>Having come from the business side of things has really helped me understand products and projects from multiple angles and viewpoints. </p>
+        <p>When I am not coding or thinking up world changing ideas, I spend my time in the gym and outdoors. </p>
 
-    <form id="enterdatashit" action="#" class="js-search-form">
-        <label for="query"></label>
-        <input id="apiinput" type="text" class="js-query">
-        <button id="apibutton" type="submit">Search</button>
-    </form>
-    <br>
-    <div id="results23" class="js-search-results23"></div>
-    <div id="resultss" class="js-search-results"></div>
-    <br>
-    <div id="results1" class="js-search-results1"></div>
-    <div id="results2" class="js-search-results2"></div>
-     <div id="results3" class="js-search-results3"></div>
-     <div id="results4" class="js-search-results4"></div>
+
+    </div>
+    
+    
 </div>
 <br>
 <br>
 <br>
 <br>
 <br>
+<br>
+    <div class="containerabout">
+        <div class="email">
+           <i class="fa fa-envelope-o email " aria-hidden="true"> SimGill89@gmail.com</i>
+        </div>
 
-<!-- ========================= SHOPPING LIST APP ========================================================= -->
+        <div class="github">
+            <i class="fa fa-github email " aria-hidden="true"> GITHUB</i>
+        </div>
+        <div class="linkedin"> 
+            <i class="fa fa-linkedin-square email " aria-hidden="true"> Linked In</i>
+        </div>
+    </div>
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- ========================= ========================================================= -->
 
 
 
-  <div class="shoppinglistapp">
-    <h1>About</h1>
+  
 
-    
-  </div>
-
-
+    <script src="https://use.fontawesome.com/79085b9d29.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </body>

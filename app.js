@@ -208,73 +208,101 @@ watchSubmit();
 
 
 
-// =========================== SHOPPING LIST APP EXERSICE =====================================
+// ===========================   EXERSICE =====================================
 
 
- $(document).ready(function() {
-  var state = {
-    items: []
-  }
+$(function(){
+      cycle();
+      
+      $('body :not(.nav), i:not(.ion-navicon)').click(function(){
+      });
 
-  // add item function
-  function addItem(state, itemObj) {
-    state.items.push(itemObj);
-  }
-  // remove item function
-  function removeItem(state, itemName) {
-    var itemsArray = state.items;
-    var index;
-    for (var i = 0; i < itemsArray.length; i++) {
-      if (itemsArray[i].name === itemName) {
-        index = i;
+      function cycle(){
+        var x = 0;
+        setInterval(language, 5000);
+        function language(){
+          $('.hello').fadeOut(1000, function(){
+            $(this).text(hello[x + 1]);
+            $(this).fadeIn(1000);
+            x++;        
+            if (x > hello.length - 2) {
+              x = -1;
+            }
+          }
+        )};
       }
-    }
-    itemsArray.splice(index,1);
-  }
-  // render list function
-  function renderList(state, JQueryElement) {
-    var renderedHTML = state.items.map(function(item) {
-      return '<li> <span class="shopping-item">' + item.name + '</span> \
-                <div class="shopping-item-controls">  \
-                  <button class="shopping-item-toggle"> \
-                    <span class="button-label">check</span> \
-                  </button> \
-                  <button class="shopping-item-delete"> \
-                  <span class="button-label">delete</span> \
-                  </button> \
-              </div> \
-              </li>'
+      var hello = [
+        'Hello.',
+        'Aloha.',
+        'Bonjour.',
+        'Hola.',
+        'Hallo.',
+        'Ciao.',
+        'Bonghjornu.',
+        'Ahoj.',
+        'Dia dhuit.',
+        'Moni.',
+        'Pẹlẹ o.',
+        'Salam.',
+        'Sveiki.',
+        'Zdravo.',
+        'Բարեւ.'
+      ]
+
+    $('.btn1').click(function(event){  
+    event.preventDefault();
+    $( ".btn1" ).addClass( "btn1color" );
+    $( ".btn2" ).removeClass( "btn2color" );
+    $( ".btn3" ).removeClass( "btn3color" );
+    $( "#project1pic" ).removeClass( "hidden" );
+    $( "#project1description" ).removeClass( "hidden" ); 
+    $( "#secondprojectpic" ).addClass( "hidden" );
+    $( "#secondprojectdes" ).addClass( "hidden" );
+    $( "#thirdprojectpic" ).addClass( "hidden" );
+    $( "#thirdprojectdes" ).addClass( "hidden" );
+      });﻿
+
+
+    $('.btn2').click(function(event){  
+    event.preventDefault();
+    $( ".btn2" ).addClass( "btn2color" );
+    $( ".btn1" ).removeClass( "btn1color" );
+    $( ".btn3" ).removeClass( "btn3color" );
+    $( "#secondprojectpic" ).removeClass( "hidden" );
+    $( "#secondprojectdes" ).removeClass( "hidden" );
+    $( "#project1pic" ).addClass( "hidden" );
+    $( "#project1description" ).addClass( "hidden" );
+    $( "#thirdprojectpic" ).addClass( "hidden" );
+    $( "#thirdprojectdes" ).addClass( "hidden" );
+    });﻿
+
+    $('.btn3').click(function(event){  
+    event.preventDefault();
+    $( ".btn3" ).addClass( "btn3color" );
+    $( ".btn1" ).removeClass( "btn1color" );
+    $( ".btn2" ).removeClass( "btn2color" );
+    $( "#thirdprojectpic" ).removeClass( "hidden" );
+    $( "#thirdprojectdes" ).removeClass( "hidden" );
+    $( "#secondprojectpic" ).addClass( "hidden" );
+    $( "#secondprojectdes" ).addClass( "hidden" );
+    $( "#project1pic" ).addClass( "hidden" );
+    $( "#project1description" ).addClass( "hidden" );
+    });﻿
+
+    $(window).scroll(function() {
+
+    if ($(this).scrollTop()>0)
+     {
+        $('#header').fadeOut();
+     }
+    else
+     {
+      $('#header').fadeIn();
+     }
+    });
+
 
     });
-    JQueryElement.html(renderedHTML);
-    $('#shopping-list-entry').val('')
-  }
 
-  $('#js-shopping-list-form').on('submit keypress', function(event) {
-     var type = event.type;
-     var keyCode = event.which
-     if (type === 'keypress' && keyCode === 13 || type === 'submit') {
-       event.preventDefault();
-       var itemName = $('#shopping-list-entry').val(); // ships
-       var shoppingItem = {
-         name: itemName,
-         checked: false
-       }
-       if (itemName) {
-         addItem(state, shoppingItem);
-         renderList(state, $('.shopping-list'));
-       }
-     }
-  });
 
-  $('ul').on('click', 'button.shopping-item-toggle', function(event){
-    $(this).closest('li').find('.shopping-item').toggleClass('shopping-item__checked');
-  });
 
-  $('ul').on('click', 'button.shopping-item-delete', function(event){
-    var itemName = $(this).closest('li').find('.shopping-item').text();
-    removeItem(state, itemName);
-    renderList(state, $('.shopping-list'));
-  });
-
-});
