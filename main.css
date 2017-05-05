@@ -13,6 +13,9 @@ body {
 
 
 }
+*:focus{
+	outline:0;
+}
 
 /*===================START OF THE SIMPLE NAV BAR ===================================*/
 
@@ -70,12 +73,12 @@ li>a:hover {
 
 .video-spot{
 	position:relative;	
- background-image: url("sun.jpg");
+/* background-image: url("sun.jpg");*/
  width: 100%;
- height: 500px;
- background-repeat: no-repeat;
+/* height: 500px;*/
+/* background-repeat: no-repeat;
  background-size: cover;
- background-position: center;
+ background-position: center;*/
 	
 }
 .video-spot>h1 {
@@ -212,7 +215,7 @@ margin-left: 44%;
 	margin-top: 2%;
 	margin-left: 47%;
 	text-align: center;
-	padding: 15px;
+	/*padding: 15px;*/
 	height: 80px;
   	width: 82px;
   	border-radius: 90%;
@@ -346,6 +349,10 @@ font-family: 'Raleway', sans-serif;
 
 
 }
+.descriptiontitle{
+	
+	font-size: 0px;
+}
 
 /* =================================THIS IS WHERE THE CSS STARTS OF THE API SECTION =============================================*/
 .api {
@@ -384,7 +391,7 @@ text-align: center;
 .title3 {
 font-family: 'Raleway', sans-serif;
 
-	text-align: left;
+	text-align: center;
 	padding-top: 1%;
 	color: white;
 
@@ -457,8 +464,179 @@ font-family: 'Raleway', sans-serif;
 @media only screen and (max-width: 375px) {
     
 
-
-    
+.traversebuttons{
+	
+	margin-left: 30%;
+	margin-bottom: 30px;
 }
+.title3 {
+font-family: 'Raleway', sans-serif;
+
+	text-align: center;
+	padding-top: 1%;
+	color: white;
+
+}
+.title3{
+	font-size: 20px;
+	margin-top: 2%;
+	margin-left: 38%;
+	text-align: center;
+	padding: 15px;
+	height: 80px;
+  	width: 82px;
+  	border-radius: 90%;
+  	border: 1px solid white;
+}
+.tagline{
+	font-size: 0px;
+}
+
+}
+@media only screen and (max-width: 414px) {
+    
+
+.traversebuttons{
+	
+	margin-left: 29%;
+	margin-bottom: 30px;
+}
+.title3 {
+font-family: 'Raleway', sans-serif;
+
+	text-align: center;
+	padding-top: 1%;
+	color: white;
+
+}
+.title3{
+	font-size: 20px;
+	margin-top: 2%;
+	margin-left: 38%;
+	text-align: center;
+	padding: 15px;
+	height: 80px;
+  	width: 82px;
+  	border-radius: 90%;
+  	border: 1px solid white;
+}
+.tagline{
+	font-size: 0px;
+}
+#nav>li {
+
+width: 20%;
+list-style: none;
+float: right;
+
+}
+.zero{
+	width: 0px;
+	display: none;
+}
+.projectDescription {
+	
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+}
+
+.description{
+	width: 100%;
+}
+.descriptiontitle{
+	font-family: 'Raleway', sans-serif;
+	padding-top: 100px;
+	font-size: 40px;
+}
+.video-spot{
+	position:relative;	
+ background-image: url("snap.png");
+ width: 100%;
+ height: 300px;
+ background-repeat: no-repeat;
+ background-size: cover;
+ background-position: center;
+	
+}
+.hide{
+	display: none;
+}
+
+
+}
+
+@media only screen and (max-width: 768px) {
+    
+
+
+.title3 {
+font-family: 'Raleway', sans-serif;
+
+	text-align: center;
+	padding-top: 1%;
+	color: white;
+
+}
+.title3{
+	font-size: 20px;
+	margin-top: 2%;
+	margin-left: 42%;
+	text-align: center;
+	padding: 15px;
+	height: 80px;
+  	width: 82px;
+  	border-radius: 90%;
+  	border: 1px solid white;
+}
+.tagline{
+	font-size: 0px;
+}
+#nav>li {
+
+width: 20%;
+list-style: none;
+float: right;
+
+}
+.zero{
+	width: 0px;
+	display: none;
+}
+.projectDescription {
+	
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+}
+
+.description{
+	width: 100%;
+}
+.descriptiontitle{
+	font-family: 'Raleway', sans-serif;
+	padding-top: 100px;
+	font-size: 40px;
+}
+.video-spot{
+	position:relative;	
+ background-image: url("snap.png");
+ width: 100%;
+ height: 330px;
+ background-repeat: no-repeat;
+ background-size: cover;
+ background-position: center;
+	
+}
+.hide{
+	display: none;
+}
+
+
+
+}
+
 
 
