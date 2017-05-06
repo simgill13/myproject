@@ -73,12 +73,12 @@ li>a:hover {
 
 .video-spot{
 	position:relative;	
-/* background-image: url("sun.jpg");*/
+ background-image: url("snap.jpg");
  width: 100%;
-/* height: 500px;*/
-/* background-repeat: no-repeat;
+ height: 700px;
+ background-repeat: no-repeat;
  background-size: cover;
- background-position: center;*/
+ background-position: center;
 	
 }
 .video-spot>h1 {
