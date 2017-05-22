@@ -1,4 +1,4 @@
-@import "compass/css3";
+
 
 * {
 	margin: 0px;
@@ -15,6 +15,9 @@ body {
 }
 *:focus{
 	outline:0;
+}
+a:link {
+    text-decoration: none;
 }
 
 /*===================START OF THE SIMPLE NAV BAR ===================================*/
@@ -234,9 +237,14 @@ margin-left: 44%;
   border-radius: 50%;
   border: 1px solid white;
   background: none;
+  color: black;
+}
+.traversebuttons>button>a{
+	color:black;
 }
 .btn1:focus{
 	outline:0;
+
 }
 .btn2:focus{
 	outline:0;
