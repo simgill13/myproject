@@ -486,7 +486,7 @@ font-family: 'Play', sans-serif;
 }
 
 .projectsleft{
-	width: 50%;
+	    width: 21%;
 	height: 300px;
 	/*border: solid blue;*/
 	display: inline-block;
@@ -509,18 +509,24 @@ font-family: 'Play', sans-serif;
 	
 }
 .clockicon{
-	margin-top: 70px;
-	font-size: 60px;
-	    color: #CCCC99;
+	    border-bottom: solid;
+    border-bottom-width: .5px;
+    margin-bottom: 20px;
+    margin-top: 70px;
+    font-size: 60px;
+   color: white;
 }
 
 
 .houresworkedtext{
-	color: white;
+	color:#CCCC99;
 	    font-family: 'Play', sans-serif;
 }
 
-
+.gaga{
+	padding-bottom: 13px;
+	color:#CCCC99;
+}
 #shiva
 {
  /* width: 100px;
@@ -578,7 +584,7 @@ font-family: 'Play', sans-serif;
 
 
 .projects2{
-	height: 200px;
+	height: 222px;
 	width: 100%;
 	background-image: url('world-map.jpg');
 	text-align: center;
@@ -589,10 +595,10 @@ font-family: 'Play', sans-serif;
 
 .projectsleft2{
 	width: 100%;
-	height: 100%;
+	height: 200px;
 	/*border: solid blue;*/
 	display: inline-block;
-	 overflow: auto;
+	 /*overflow: auto;*/
 	resize: horizontal;
 	position: right;
 	/*text-align: right;*/
@@ -611,7 +617,8 @@ font-family: 'Play', sans-serif;
 }
 .yo{
 	display: inline-block;
-	font-size: 15px;	
+	font-size: 15px;
+	    padding-left: 10px;	
 }
 
 
@@ -1190,6 +1197,9 @@ float: right;
 }
 
 }
+
+/*=======================================================*/
+
 
 
 
