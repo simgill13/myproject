@@ -21,21 +21,23 @@ $(function(){
         )};
       }
       var hello = [
-        'Hello.',
-        'Aloha.',
+        'Hello',
+        'Բարեւ',
+        'Pẹlẹ o',
+        'Aloha',
         'Bonjour.',
-        'Hola.',
-        'Hallo.',
-        'Ciao.',
-        'Bonghjornu.',
-        'Ahoj.',
+        'Hola',
+        'Hallo',
+        'Ciao',
+        'Bonghjornu',
+        'Ahoj',
         'Dia dhuit.',
-        'Moni.',
-        'Pẹlẹ o.',
-        'Salam.',
-        'Sveiki.',
-        'Zdravo.',
-        'Բարեւ.'
+        'Moni',
+        'Pẹlẹ o',
+        'Salam',
+        'Sveiki',
+        'Zdravo',
+        'Բարեւ'
       ]
 
     $('.btn1').click(function(event){  
@@ -82,13 +84,32 @@ $(function(){
 
     if ($(this).scrollTop()>0)
      {
-        $('#header').fadeOut();
+        $('.navheader').fadeOut();
+        $('.doublearrow').fadeOut();
+
      }
-    else
+    else 
      {
-      $('#header').fadeIn();
+      $('.navheader').fadeIn();
+      $('.doublearrow').fadeIn();
      }
     });
+
+ 
+$('.count').each(function () {
+    $(this).prop('Counter',0).animate({
+        Counter: $(this).text()
+    }, {
+        duration: 4000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+});
+    
+     
+  
 
 $('a[href*="#"]')
  .not('[href="#"]')
