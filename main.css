@@ -395,6 +395,7 @@ padding-top: 60px;
 
 .imagediv{
 	overflow:hidden;
+
 }
 
 
@@ -411,6 +412,7 @@ padding-top: 60px;
   -ms-transition: all 5s ease;
   -webkit-transition: all 5s ease;
   -o-transition: all 5s ease;
+ 
 }
 
 
@@ -483,6 +485,10 @@ font-family: 'Play', sans-serif;
 	width: 100%;
 	background-image: url('world-map.jpg');
 	text-align: center;
+	background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .projectsleft{
