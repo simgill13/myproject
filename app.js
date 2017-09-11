@@ -252,7 +252,8 @@ function active(){
 
 function twillio(message){
 
-  
+  $( "#sendtextbtnid" ).text(' Processing');
+
   var post = {
     text:message
   }
@@ -269,11 +270,13 @@ function twillio(message){
     contentType: 'application/json',
     success: function(data) {
       console.log('Success');
+      $( "#sendtextbtnid" ).text('Send');
 
       console.log(data) 
       alert('message sent, thank you')
     },
     error: function() {
+      $( "#sendtextbtnid" ).text('Send');
       alert('sorry server is down')
       console.log("something went wrong")
 
