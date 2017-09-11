@@ -187,7 +187,24 @@ function clicks(){
     $('#aboutsection').addClass('hidden')
     $('#skillssection').addClass('hidden')
     $('#worksection').addClass('hidden')
-  })}
+  })
+
+ $('#btnanimation').click(function() {
+    $(".fa-home").css({"color": "#4D4D4E"})
+    $(".fa-user-secret").css({"color": "#4D4D4E"})
+    $(".fa-code").css({"color": "#4D4D4E"})
+    $(".fa-picture-o").css({"color": "#4D4D4E"})
+    $(".fa-envelope-o").css({"color": "#00FFD7"})
+
+    $('#contactsection').removeClass('hidden')
+    $('#homesection').addClass('hidden')
+    $('#aboutsection').addClass('hidden')
+    $('#skillssection').addClass('hidden')
+    $('#worksection').addClass('hidden')
+  })
+
+
+}
   
 
 function zindex(){
@@ -200,7 +217,7 @@ function slideBack(){
 
 
 function slide(){
-  $('#homeid,#aboutid,#skillsid,#workiconid,#contactid').click(function() {
+  $('#homeid,#aboutid,#skillsid,#workiconid,#contactid,#btnanimation').click(function() {
     var clicked = $(this).attr('id');
     if($('#'+clicked).hasClass('active') === true){
       $('#'+clicked).addClass('activeColor')
@@ -215,9 +232,9 @@ function active(){
 
          
 
-  $('#homeid,#aboutid,#skillsid,#workiconid,#contactid').click(function() {
+  $('#homeid,#aboutid,#skillsid,#workiconid,#contactid,#btnanimation').click(function() {
     var selectedicon = $(this).attr('id');
-    var array= ['homeid','aboutid','skillsid','workiconid','contactid']
+    var array= ['homeid','aboutid','skillsid','workiconid','contactid','btnanimation']
     if(selectedicon){
       for (var i = 0; i <array.length; i++) {
         if(array[i] === selectedicon){
@@ -292,4 +309,7 @@ $( ".sendtextmsgbtn" ).click(function() {
 
 
 
-     
+  $( "#phonecall" ).click(function() {
+    alert("browser calling is comming soon :)")
+  });
+ 
