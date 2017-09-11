@@ -1129,7 +1129,10 @@ float: right;
 @media only screen and (max-width: 768px) {
     
 
-
+.aug1{
+	height: 200px;
+	width: 200px;
+}
 /*.title3 {
 font-family: 'Raleway', sans-serif;
 
