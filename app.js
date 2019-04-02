@@ -271,14 +271,12 @@ function twillio(message){
     success: function(data) {
       console.log('Success');
       $( "#sendtextbtnid" ).text('Send');
-
-      console.log(data) 
-      alert('message sent, thank you')
+      alert('message sent, thank you!')
     },
-    error: function() {
+    error: function(err) {
       $( "#sendtextbtnid" ).text('Send');
       alert('sorry server is down')
-      console.log("something went wrong")
+      console.log("something went wrong",err)
 
     }
   })
@@ -313,6 +311,6 @@ $( ".sendtextmsgbtn" ).click(function() {
 
 
   $( "#phonecall" ).click(function() {
-    alert("browser calling is comming soon :)")
+    alert("browser calling will be comming soon :)")
   });
  
