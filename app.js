@@ -209,6 +209,8 @@ function clicks(){
 
 function zindex(){
   $(".slide-in").css({"z-index": "0"})
+  $('#homeid,#aboutid,#skillsid,#workiconid,#contactid,#btnanimation').css({"pointer-events": "visible"})      
+  
 }
 function slideBack(){ 
  $('.slide-in').toggleClass('show');
@@ -223,6 +225,7 @@ function slide(){
       $('#'+clicked).addClass('activeColor')
       $(".slide-in").css({"z-index": "9"})
       $('.slide-in').toggleClass('show');
+      $('#homeid,#aboutid,#skillsid,#workiconid,#contactid,#btnanimation').css({"pointer-events": "none"})      
       setTimeout('slideBack()', 3000);
     }
   })    
