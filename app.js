@@ -1,123 +1,54 @@
-
-
-particlesJS('particles-js',
-  
-  {
-    "particles": {
-      "number": {
-        "value": 80,
-        "density": {
-          "enable": true,
-          "value_area": 800
+(async function () {
+  if (typeof loadSlim === 'function' && typeof tsParticles !== 'undefined') {
+    await loadSlim(tsParticles);
+  }
+  await tsParticles.load({
+    id: 'particles-js',
+    options: {
+      fpsLimit: 60,
+      background: { color: 'transparent' },
+      particles: {
+        number: { value: 100, density: { enable: true, area: 900 } },
+        color: { value: ['#ffffff', '#08fdd8', '#73fbd9'] },
+        shape: { type: 'circle' },
+        opacity: { value: { min: 0.3, max: 0.7 } },
+        size: { value: { min: 1, max: 2.6 } },
+        links: {
+          enable: true,
+          distance: 150,
+          color: '#ffffff',
+          opacity: 0.35,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 1.1,
+          direction: 'none',
+          outModes: { default: 'out' }
         }
       },
-      "color": {
-        "value": "#ffffff"
-      },
-      "shape": {
-        "type": "circle",
-        "stroke": {
-          "width": 0,
-          "color": "#000000"
+      interactivity: {
+        detectsOn: 'window',
+        events: {
+          onHover: {
+            enable: true,
+            mode: ['grab', 'bubble'],
+            parallax: { enable: true, force: 30, smooth: 12 }
+          },
+          onClick: { enable: true, mode: 'push' },
+          resize: true
         },
-        "polygon": {
-          "nb_sides": 5
-        },
-        "image": {
-          "src": "img/github.svg",
-          "width": 100,
-          "height": 90
+        modes: {
+          grab: { distance: 160, links: { opacity: 0.8 } },
+          bubble: { distance: 180, size: 4.5, duration: 0.4, opacity: 1 },
+          repulse: { distance: 100, duration: 0.4 },
+          push: { quantity: 4 }
         }
       },
-      "opacity": {
-        "value": 0.8,
-        "random": false,
-        "anim": {
-          "enable": false,
-          "speed": 1,
-          "opacity_min": 0.1,
-          "sync": false
-        }
-      },
-      "size": {
-        "value": 1.5,
-        "random": true,
-        "anim": {
-          "enable": false,
-          "speed": 40,
-          "size_min": 0.1,
-          "sync": false
-        }
-      },
-      "line_linked": {
-        "enable": true,
-        "distance": 150,
-        "color": "#ffffff",
-        "opacity": 0.4,
-        "width": 1
-      },
-      "move": {
-        "enable": true,
-        "speed": 1,
-        "direction": "none",
-        "random": false,
-        "straight": false,
-        "out_mode": "out",
-        "attract": {
-          "enable": false,
-          "rotateX": 600,
-          "rotateY": 1200
-        }
-      }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": {
-          "enable": true,
-          "mode": "grab"
-        },
-        "onclick": {
-          "enable": true,
-          "mode": "push"
-        },
-        "resize": true
-      },
-      "modes": {
-        "grab": {
-          "distance": 100,
-          "line_linked": {
-            "opacity": 1
-          }
-        },
-        "bubble": {
-          "distance": 400,
-          "size": 40,
-          "duration": 2,
-          "opacity": 8,
-          "speed": 3
-        },
-        "repulse": {
-          "distance": 50
-        },
-        "push": {
-          "particles_nb": 4
-        },
-        "remove": {
-          "particles_nb": 2
-        }
-      }
-    },
-    "retina_detect": true,
-    "config_demo": {
-      "hide_card": false,
-      "background_color": "#b61924",
-      "background_image": "",
-      "background_position": "50% 50%",
-      "background_repeat": "no-repeat",
-      "background_size": "cover"
+      detectRetina: true
     }
   });
+})();
 
 function clicks(){
 
@@ -357,4 +288,145 @@ $('#contactForm').on('submit', function(e) {
   $( "#phonecall" ).click(function() {
     alert("browser calling will be comming soon :)")
   });
- 
+
+
+/* ==========================================================
+   Engagement layer: typing intro, counters, scroll reveal,
+   magnetic nav. Vanilla JS with light jQuery interop.
+   ========================================================== */
+
+(function () {
+  var typingPlayed = false;
+
+  function typeLine(el, html, speed) {
+    return new Promise(function (resolve) {
+      el.classList.add('is-typing');
+      el.innerHTML = '<span class="typing-cursor"></span>';
+      var i = 0;
+      var len = html.length;
+      function step() {
+        i++;
+        el.innerHTML = html.slice(0, i) + '<span class="typing-cursor"></span>';
+        if (i < len) {
+          setTimeout(step, speed);
+        } else {
+          el.classList.remove('is-typing');
+          resolve();
+        }
+      }
+      setTimeout(step, speed);
+    });
+  }
+
+  function runTypingIntro() {
+    if (typingPlayed) return;
+    typingPlayed = true;
+    var lines = Array.prototype.slice.call(document.querySelectorAll('#homesection .typing-line'));
+    if (!lines.length) return;
+    lines.forEach(function (l) { l.innerHTML = ''; });
+    (function next(idx) {
+      if (idx >= lines.length) {
+        var last = lines[lines.length - 1];
+        last.innerHTML = last.getAttribute('data-typed') + '<span class="typing-cursor steady"></span>';
+        return;
+      }
+      var el = lines[idx];
+      var html = el.getAttribute('data-typed') || '';
+      typeLine(el, html, 28).then(function () {
+        el.innerHTML = html;
+        next(idx + 1);
+      });
+    })(0);
+  }
+
+  function showFinalText() {
+    typingPlayed = true;
+    document.querySelectorAll('#homesection .typing-line').forEach(function (el) {
+      el.innerHTML = el.getAttribute('data-typed') || '';
+    });
+  }
+
+  /* Counters --------------------------------------------------------- */
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animateCounter(el) {
+    if (el.dataset.done === '1') return;
+    el.dataset.done = '1';
+    var target = parseFloat(el.getAttribute('data-target')) || 0;
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1400;
+    var start = performance.now();
+    function tick(now) {
+      var p = Math.min(1, (now - start) / duration);
+      var v = Math.round(target * easeOutCubic(p));
+      el.textContent = prefix + v + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function triggerCountersIfWorkVisible() {
+    var work = document.getElementById('worksection');
+    if (!work || work.classList.contains('hidden')) return;
+    document.querySelectorAll('#worksection .stat-num').forEach(animateCounter);
+  }
+
+  /* Scroll reveal --------------------------------------------------- */
+
+  function setupScrollReveal() {
+    var els = document.querySelectorAll('.projectholder');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('revealed'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* Magnetic nav icons ---------------------------------------------- */
+
+  function setupMagneticNav() {
+    var holders = document.querySelectorAll('.middle > div');
+    holders.forEach(function (holder) {
+      var icon = holder.querySelector('i');
+      if (!icon) return;
+      icon.classList.add('magnetic-icon');
+      holder.addEventListener('mousemove', function (e) {
+        var r = holder.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width / 2;
+        var y = e.clientY - r.top - r.height / 2;
+        icon.style.transform = 'translate(' + (x * 0.45) + 'px,' + (y * 0.45) + 'px)';
+      });
+      holder.addEventListener('mouseleave', function () {
+        icon.style.transform = '';
+      });
+    });
+  }
+
+  /* Wire-up --------------------------------------------------------- */
+
+  $(window).on('load', function () {
+    setTimeout(runTypingIntro, 400);
+    setupScrollReveal();
+    setupMagneticNav();
+  });
+
+  // Re-trigger counters whenever the work section becomes visible
+  $('#workiconid').on('click', function () {
+    setTimeout(triggerCountersIfWorkVisible, 400);
+  });
+
+  // Skip typing if user navigates away mid-intro and back
+  $('#aboutid, #skillsid, #workiconid, #contactid').on('click', function () {
+    if (!typingPlayed) showFinalText();
+  });
+})();

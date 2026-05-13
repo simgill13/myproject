@@ -73,10 +73,10 @@
       <div class="homecontainer">
         <p class="overlaytext bodyText"> < body > </p>
         <p class="overlaytext h1texttag bounce"> < h1 > </p>
-        <p class="overlaytext hitext animated fadeInRight"> Hi,</p>
-        <p class="overlaytext stext animated fadeInRight"> I'm <span  id="sletter" class="specials ">S</span>im, </p>
-        <p class="overlaytext webdevtext animated fadeInRight"> Principal Software & AI Engineer</p>
-        <p class="overlaytext descriptionline animated fadeInRight"> React / React Native (Swift &#38 Kotlin) / TypeScript / Node / Python / AI</p>
+        <p class="overlaytext hitext typing-line" data-typed="Hi,"> </p>
+        <p class="overlaytext stext typing-line" data-typed="I'm <span id=&quot;sletter&quot; class=&quot;specials&quot;>S</span>im,"> </p>
+        <p class="overlaytext webdevtext typing-line" data-typed="Principal Software &amp; AI Engineer"> </p>
+        <p class="overlaytext descriptionline typing-line" data-typed="React / React Native (Swift &amp; Kotlin) / TypeScript / Node / Python / AI"> </p>
         <button id="btnanimation" class="overlaytext contactmebtn animated jello" > Contact me </button>
         <p class="overlaytext closeh1tag"> < /h1 > </p>
         <p class="overlaytext closebodytag "> < /body ></p>
@@ -154,9 +154,14 @@
           <div  class="phleftside showHideToggle" style="display:inline-flex; flex-direction:column; justify-content:center; align-items:center;">
             <p class="workoverlaytext workstext" style="margin-top:0;"> <span  id="sletter" class="specials ">S</span>tockpile </p>
             <p class="worktext">Principal Engineer · 5+ years</p>
+            <div class="stats-grid">
+              <div class="stat"><span class="stat-num" data-target="300" data-prefix="+" data-suffix="%">+0%</span><span class="stat-label">MAU/DAU growth</span></div>
+              <div class="stat"><span class="stat-num" data-target="73" data-prefix="+" data-suffix="%">+0%</span><span class="stat-label">payment success</span></div>
+              <div class="stat"><span class="stat-num" data-target="62" data-prefix="+" data-suffix="%">+0%</span><span class="stat-label">onboarding</span></div>
+            </div>
           </div><div class="phrightside">
             
-            <p class="workdescriptiontext">Led React Native development on Stockpile's mobile app. Shipped Apple Pay (Swift) and Samsung Pay (Kotlin), and integrated Plaid, Forter, and Prove. Drove +300% MAU/DAU growth, +73% payment success, and +62% onboarding completion.</p>
+            <p class="workdescriptiontext">Led React Native development on Stockpile's mobile app. Shipped Apple Pay (Swift) and Samsung Pay (Kotlin), and integrated Plaid, Forter, and Prove.</p>
             <p class="techstacktitle">Tech Stack:</p>
             <p class="techstacktext">
               React Native | TypeScript | Swift | Kotlin | Node | Express | AWS | Plaid | Apple Pay | Samsung Pay.
@@ -399,7 +404,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="./particles.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3/tsparticles.slim.bundle.min.js"></script>
 <script src="./app.js"></script>
  <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
