@@ -258,20 +258,65 @@ slide()
 clicks()
 
 
-$('#contactForm').on('submit', function(e) {
-  e.preventDefault();
+function getClientContext() {
+  var nav = navigator || {};
+  var scr = screen || {};
+  var navStart = (performance && performance.timing && performance.timing.navigationStart) || Date.now();
+  var timeOnPage = Math.round((Date.now() - navStart) / 1000);
+  var intl = (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions() : {};
 
-  var $form = $(this);
+  return {
+    browser_userAgent: nav.userAgent || '',
+    browser_language: nav.language || '',
+    browser_platform: nav.platform || '',
+    browser_cores: nav.hardwareConcurrency || '',
+    screen_size: (scr.width || '?') + 'x' + (scr.height || '?'),
+    viewport_size: window.innerWidth + 'x' + window.innerHeight,
+    pixel_ratio: window.devicePixelRatio || 1,
+    color_scheme: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    timezone: intl.timeZone || '',
+    locale: intl.locale || '',
+    local_time: new Date().toString(),
+    page_url: location.href,
+    referrer: document.referrer || 'direct',
+    time_on_page_seconds: timeOnPage
+  };
+}
+
+function fetchIpGeo() {
+  return $.ajax({
+    url: 'https://ipapi.co/json/',
+    dataType: 'json',
+    timeout: 3000
+  }).then(function(d) {
+    return {
+      geo_ip: d.ip || '',
+      geo_city: d.city || '',
+      geo_region: d.region || '',
+      geo_country: d.country_name || '',
+      geo_country_code: d.country_code || '',
+      geo_postal: d.postal || '',
+      geo_isp: d.org || '',
+      geo_latitude: d.latitude || '',
+      geo_longitude: d.longitude || '',
+      geo_timezone: d.timezone || ''
+    };
+  });
+}
+
+function submitForm($form, extraData) {
   var $btn = $('#sendtextbtnid');
   var $status = $('#formStatus');
+  var data = $form.serializeArray();
 
-  $btn.text('Sending...').prop('disabled', true);
-  $status.hide();
+  Object.keys(extraData).forEach(function(k) {
+    data.push({ name: k, value: extraData[k] });
+  });
 
   $.ajax({
     type: 'POST',
     url: $form.attr('action'),
-    data: $form.serialize(),
+    data: $.param(data),
     dataType: 'json',
     headers: { 'Accept': 'application/json' },
     success: function() {
@@ -284,6 +329,26 @@ $('#contactForm').on('submit', function(e) {
       $status.css('color', '#ff6b6b').text('Something went wrong. Please try again or email simgill89@gmail.com.').show();
     }
   });
+}
+
+$('#contactForm').on('submit', function(e) {
+  e.preventDefault();
+
+  var $form = $(this);
+  var $btn = $('#sendtextbtnid');
+  var $status = $('#formStatus');
+
+  $btn.text('Sending...').prop('disabled', true);
+  $status.hide();
+
+  var ctx = getClientContext();
+
+  fetchIpGeo()
+    .then(function(geo) {
+      submitForm($form, $.extend({}, ctx, geo));
+    }, function() {
+      submitForm($form, ctx);
+    });
 });
 
 
