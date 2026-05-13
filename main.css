@@ -798,6 +798,68 @@ border: .5px solid rgba(242,242,242,0.03);
 .typing-line {
   min-height: 1.1em;
 }
+
+/* Pulsing teal glow on the word "AI" */
+.ai-glow {
+  color: #08fdd8;
+  position: relative;
+  text-shadow:
+    0 0 10px rgba(8, 253, 216, 0.55),
+    0 0 22px rgba(8, 253, 216, 0.25);
+  animation: aiPulse 2.6s ease-in-out infinite;
+}
+@keyframes aiPulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(8, 253, 216, 0.45),
+      0 0 22px rgba(8, 253, 216, 0.18);
+  }
+  50% {
+    text-shadow:
+      0 0 18px rgba(8, 253, 216, 0.95),
+      0 0 36px rgba(8, 253, 216, 0.55),
+      0 0 60px rgba(8, 253, 216, 0.25);
+  }
+}
+
+/* "Thinking" dots — shown briefly before the typing intro begins */
+.thinking-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #08fdd8;
+  margin: 0 3px;
+  vertical-align: middle;
+  opacity: 0.4;
+  animation: thinkingPulse 1s infinite;
+}
+.thinking-dot:nth-child(2) { animation-delay: 0.18s; }
+.thinking-dot:nth-child(3) { animation-delay: 0.36s; }
+@keyframes thinkingPulse {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.85); }
+  30%           { opacity: 1;   transform: scale(1.15); }
+}
+
+/* Floating AI keywords drifting up in the home background */
+.ai-keyword {
+  position: absolute;
+  color: #08fdd8;
+  opacity: 0;
+  font-family: 'Source Code Pro', 'Source Sans Pro', monospace;
+  letter-spacing: 1.2px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1;
+  text-shadow: 0 0 8px rgba(8, 253, 216, 0.35);
+  animation: aiKeywordFloat linear forwards;
+}
+@keyframes aiKeywordFloat {
+  0%   { opacity: 0;    transform: translateY(0)     translateX(0); }
+  15%  { opacity: 0.45; }
+  85%  { opacity: 0.45; transform: translateY(-260px) translateX(20px); }
+  100% { opacity: 0;    transform: translateY(-310px) translateX(28px); }
+}
 .typing-cursor {
   display: inline-block;
   width: 2px;

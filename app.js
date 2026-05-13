@@ -297,24 +297,71 @@ $('#contactForm').on('submit', function(e) {
 
 (function () {
   var typingPlayed = false;
+  var keywordTimer = null;
 
-  function typeLine(el, html, speed) {
+  /* HTML-aware tokenizer: splits a string into a stream of tags / entities /
+     individual characters so we can render tags atomically (no half-tags). */
+  function tokenizeHtml(html) {
+    var tokens = [];
+    var i = 0;
+    while (i < html.length) {
+      var ch = html[i];
+      if (ch === '<') {
+        var end = html.indexOf('>', i);
+        if (end === -1) { tokens.push({ kind: 'text', value: ch }); i++; continue; }
+        tokens.push({ kind: 'tag', value: html.slice(i, end + 1) });
+        i = end + 1;
+      } else if (ch === '&') {
+        var semi = html.indexOf(';', i);
+        if (semi !== -1 && semi - i <= 7) {
+          tokens.push({ kind: 'text', value: html.slice(i, semi + 1) });
+          i = semi + 1;
+        } else {
+          tokens.push({ kind: 'text', value: ch }); i++;
+        }
+      } else {
+        tokens.push({ kind: 'text', value: ch });
+        i++;
+      }
+    }
+    return tokens;
+  }
+
+  /* LLM-style chunked streaming: variable chunk size and occasional micro-pauses */
+  function typeLine(el, html, baseSpeed) {
     return new Promise(function (resolve) {
       el.classList.add('is-typing');
-      el.innerHTML = '<span class="typing-cursor"></span>';
-      var i = 0;
-      var len = html.length;
+      var tokens = tokenizeHtml(html);
+      var rendered = '';
+      var idx = 0;
       function step() {
-        i++;
-        el.innerHTML = html.slice(0, i) + '<span class="typing-cursor"></span>';
-        if (i < len) {
-          setTimeout(step, speed);
-        } else {
+        if (idx >= tokens.length) {
           el.classList.remove('is-typing');
           resolve();
+          return;
         }
+        // Stream 1-3 text chars per tick to mimic LLM token streaming
+        var chunkSize = 1 + Math.floor(Math.random() * 3);
+        var consumed = 0;
+        while (idx < tokens.length && (tokens[idx].kind === 'tag' || consumed < chunkSize)) {
+          rendered += tokens[idx].value;
+          if (tokens[idx].kind === 'text') consumed++;
+          idx++;
+        }
+        el.innerHTML = rendered + '<span class="typing-cursor"></span>';
+        var delay = baseSpeed + Math.random() * baseSpeed;
+        if (Math.random() < 0.06) delay += 220;
+        setTimeout(step, delay);
       }
-      setTimeout(step, speed);
+      step();
+    });
+  }
+
+  /* "Thinking" dots — quick AI-loading idiom shown before the first line */
+  function showThinkingDots(el, ms) {
+    return new Promise(function (resolve) {
+      el.innerHTML = '<span class="thinking-dot"></span><span class="thinking-dot"></span><span class="thinking-dot"></span>';
+      setTimeout(function () { el.innerHTML = ''; resolve(); }, ms);
     });
   }
 
@@ -324,19 +371,22 @@ $('#contactForm').on('submit', function(e) {
     var lines = Array.prototype.slice.call(document.querySelectorAll('#homesection .typing-line'));
     if (!lines.length) return;
     lines.forEach(function (l) { l.innerHTML = ''; });
-    (function next(idx) {
-      if (idx >= lines.length) {
-        var last = lines[lines.length - 1];
-        last.innerHTML = last.getAttribute('data-typed') + '<span class="typing-cursor steady"></span>';
-        return;
-      }
-      var el = lines[idx];
-      var html = el.getAttribute('data-typed') || '';
-      typeLine(el, html, 28).then(function () {
-        el.innerHTML = html;
-        next(idx + 1);
-      });
-    })(0);
+    showThinkingDots(lines[0], 650).then(function () {
+      (function next(idx) {
+        if (idx >= lines.length) {
+          var last = lines[lines.length - 1];
+          last.innerHTML = last.getAttribute('data-typed') + '<span class="typing-cursor steady"></span>';
+          startFloatingKeywords();
+          return;
+        }
+        var el = lines[idx];
+        var html = el.getAttribute('data-typed') || '';
+        typeLine(el, html, 22).then(function () {
+          el.innerHTML = html;
+          next(idx + 1);
+        });
+      })(0);
+    });
   }
 
   function showFinalText() {
@@ -344,6 +394,33 @@ $('#contactForm').on('submit', function(e) {
     document.querySelectorAll('#homesection .typing-line').forEach(function (el) {
       el.innerHTML = el.getAttribute('data-typed') || '';
     });
+    startFloatingKeywords();
+  }
+
+  /* Floating AI keywords drifting up in the home section background */
+  var AI_KEYWORDS = [
+    'GPT-4', 'RAG', 'embeddings', 'vector', 'LLM', 'tokens',
+    'transformer', 'attention', 'inference', 'prompt',
+    'fine-tune', 'context', 'agent', 'OpenAI', 'TensorFlow', 'PyTorch'
+  ];
+
+  function spawnKeyword() {
+    var home = document.getElementById('homesection');
+    if (!home || home.classList.contains('hidden')) return;
+    var span = document.createElement('span');
+    span.className = 'ai-keyword';
+    span.textContent = AI_KEYWORDS[Math.floor(Math.random() * AI_KEYWORDS.length)];
+    span.style.left = (40 + Math.random() * 55) + '%';
+    span.style.bottom = (Math.random() * 30) + '%';
+    span.style.fontSize = (11 + Math.random() * 4) + 'px';
+    span.style.animationDuration = (9 + Math.random() * 7) + 's';
+    home.appendChild(span);
+    setTimeout(function () { span.remove(); }, 16000);
+  }
+
+  function startFloatingKeywords() {
+    if (keywordTimer) return;
+    keywordTimer = setInterval(spawnKeyword, 2200);
   }
 
   /* Counters --------------------------------------------------------- */
