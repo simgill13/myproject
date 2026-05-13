@@ -506,4 +506,101 @@ $('#contactForm').on('submit', function(e) {
   $('#aboutid, #skillsid, #workiconid, #contactid').on('click', function () {
     if (!typingPlayed) showFinalText();
   });
+
+  /* ==========================================================
+     Visitor engagement ping — auto-fires once per day per
+     visitor when they explore 2+ sections. Sends through the
+     same FormSubmit endpoint as the contact form, but tagged
+     with a different subject so it filters cleanly in Gmail.
+     ========================================================== */
+
+  function isLocalDev() {
+    return location.hostname === 'localhost' ||
+           location.hostname === '127.0.0.1' ||
+           location.protocol === 'file:';
+  }
+
+  function setupVisitorPing() {
+    if (isLocalDev()) return;
+
+    var DAILY_KEY = 'sg_visitor_ping_date';
+    var SESSION_KEY = 'sg_visitor_ping_session';
+    var today = new Date().toDateString();
+    if (sessionStorage.getItem(SESSION_KEY) === '1') return;
+    if (localStorage.getItem(DAILY_KEY) === today) return;
+
+    var sectionMap = {
+      homeid: 'home',
+      aboutid: 'about',
+      skillsid: 'skills',
+      workiconid: 'work',
+      contactid: 'contact',
+      btnanimation: 'contact'
+    };
+
+    var visited = ['home'];
+    var times = { home: Date.now() };
+    var fired = false;
+
+    function record(section) {
+      if (visited.indexOf(section) === -1) {
+        visited.push(section);
+        times[section] = Date.now();
+      }
+      if (visited.length >= 2 && !fired) {
+        fired = true;
+        sessionStorage.setItem(SESSION_KEY, '1');
+        localStorage.setItem(DAILY_KEY, today);
+        // small debounce to capture additional clicks before sending
+        setTimeout(function () { firePing(visited.slice(), times); }, 1500);
+      }
+    }
+
+    Object.keys(sectionMap).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('click', function () { record(sectionMap[id]); });
+      }
+    });
+  }
+
+  function firePing(sections, times) {
+    if (typeof getClientContext !== 'function') return;
+    var ctx = getClientContext();
+
+    var sendIt = function (geo) {
+      var startTime = times.home;
+      var path = sections.map(function (s) {
+        var elapsed = Math.round((times[s] - startTime) / 1000);
+        return s + ' (+' + elapsed + 's)';
+      }).join(' \u2192 ');
+
+      var data = $.extend({
+        _subject: '\uD83D\uDC40 Visitor on simgill.io \u00B7 ' + sections.length + ' sections',
+        _template: 'table',
+        name: 'Auto Visitor Ping',
+        email: 'noreply+visitor@simgill.io',
+        message: 'Visitor explored ' + sections.length + ' sections: ' + path,
+        sections_visited: sections.join(', '),
+        visit_path: path,
+        ping_type: 'auto_visitor'
+      }, ctx, geo || {});
+
+      $.ajax({
+        type: 'POST',
+        url: 'https://formsubmit.co/ajax/simgill89@gmail.com',
+        data: $.param(data),
+        dataType: 'json',
+        headers: { 'Accept': 'application/json' }
+      });
+    };
+
+    if (typeof fetchIpGeo === 'function') {
+      fetchIpGeo().then(sendIt, function () { sendIt(null); });
+    } else {
+      sendIt(null);
+    }
+  }
+
+  $(window).on('load', setupVisitorPing);
 })();
