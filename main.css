@@ -873,7 +873,7 @@ border: .5px solid rgba(242,242,242,0.03);
 .worktext{
   margin-top: 1%;
   font-size: 18px;
-  line-height: 18px;
+  line-height: 1.5;
   color: #fff;
   font-family: "Open Sans",sans-serif;
   font-weight: 30;  
@@ -881,7 +881,7 @@ border: .5px solid rgba(242,242,242,0.03);
 .workdescriptiontext{
   margin-top: 25%;
   font-size: 18px;
-  line-height: 18px;
+  line-height: 1.5;
   color: #fff;
   font-family: "Open Sans",sans-serif;
   font-weight: 30;  
@@ -889,14 +889,14 @@ border: .5px solid rgba(242,242,242,0.03);
 .techstacktitle{
   margin-top: 3%;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 1.6;
   color: #fff;
   font-family: "Open Sans",sans-serif;
   font-weight: 30;
 }
 .techstacktext{
   font-size: 12px;
-  line-height: 18px;
+  line-height: 1.6;
   color: #fff;
   font-family: "Open Sans",sans-serif;
   font-weight: 30;
