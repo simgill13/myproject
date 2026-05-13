@@ -1066,6 +1066,28 @@ border: .5px solid rgba(242,242,242,0.03);
 }
 
 
+#contactForm {
+  margin-top: 39px;
+  margin-left: 18%;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  max-width: 500px;
+  position: relative;
+  z-index: 8;
+}
+#contactForm .inputfname,
+#contactForm .textarea,
+#contactForm .sendtextmsgbtn {
+  position: static;
+  margin: 0 0 12px 0;
+  width: 100%;
+}
+#contactForm .sendtextmsgbtn {
+  align-self: flex-start;
+  width: auto;
+  padding: 8px 24px;
+}
 .inputfname{
   margin-top: 39px;
   position: absolute;

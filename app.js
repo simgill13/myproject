@@ -253,61 +253,37 @@ function active(){
 }
 
 
-function twillio(message){
-
-  $( "#sendtextbtnid" ).text(' Processing');
-
-  var post = {
-    text:message
-  }
-  // ready to make a post call
-
- $.ajax( {
-    type: 'post',
-    url: "https://vast-reaches-68341.herokuapp.com/textmsg",
-
-    data: JSON.stringify(post),
-    xhrFields: {
-      withCredentials: false
-    },
-    contentType: 'application/json',
-    success: function(data) {
-      console.log('Success');
-      $( "#sendtextbtnid" ).text('Send');
-      alert('message sent, thank you!')
-    },
-    error: function(err) {
-      $( "#sendtextbtnid" ).text('Send');
-      alert('sorry server is down')
-      console.log("something went wrong",err)
-
-    }
-  })
-
-
-
-}
-
-
 active()
-slide() 
-clicks() 
-  
+slide()
+clicks()
 
 
-$( ".sendtextmsgbtn" ).click(function() {
-  console.log($( ".inputfname" ).val())
-  console.log($( ".textarea" ).val())
+$('#contactForm').on('submit', function(e) {
+  e.preventDefault();
 
-  var name = $( ".inputfname" ).val()
-  var message = $( ".textarea" ).val()
+  var $form = $(this);
+  var $btn = $('#sendtextbtnid');
+  var $status = $('#formStatus');
 
-  // concating msg for twllio
-  var textmessage = name+message
+  $btn.text('Sending...').prop('disabled', true);
+  $status.hide();
 
-  twillio(textmessage)
-  $( ".inputfname" ).val(' ')
-  $( ".textarea" ).val(' ')
+  $.ajax({
+    type: 'POST',
+    url: $form.attr('action'),
+    data: $form.serialize(),
+    dataType: 'json',
+    headers: { 'Accept': 'application/json' },
+    success: function() {
+      $btn.text('Send').prop('disabled', false);
+      $form[0].reset();
+      $status.css('color', '#08fdd8').text('Thanks! Your message was sent.').show();
+    },
+    error: function() {
+      $btn.text('Send').prop('disabled', false);
+      $status.css('color', '#ff6b6b').text('Something went wrong. Please try again or email simgill89@gmail.com.').show();
+    }
+  });
 });
 
 

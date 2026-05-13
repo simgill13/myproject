@@ -367,9 +367,16 @@
         <p class="overlaytext bodyText"> < body > </p>
         <p class="overlaytext h1texttag bounce"> < h1 > </p>
         <p class="overlaytext contacttext animated fadeInRight"> Contact me</p>
-        <input id="contactwallasection" class="inputfname animated fadeIn" type="text" name="fname" placeholder="Name">
-        <textarea class="textarea " placeholder="Send me a text message "></textarea>
-        <button id="sendtextbtnid" class="sendtextmsgbtn">Send</button>
+        <form id="contactForm" action="https://formsubmit.co/ajax/simgill89@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New message from simgill.io">
+          <input type="hidden" name="_template" value="table">
+          <input type="text" name="_honey" style="display:none">
+          <input class="inputfname animated fadeIn" type="text" name="name" placeholder="Name" required>
+          <input class="inputfname animated fadeIn" type="email" name="email" placeholder="Email" required>
+          <textarea class="textarea " name="message" placeholder="Send me a message" required></textarea>
+          <button id="sendtextbtnid" class="sendtextmsgbtn" type="submit">Send</button>
+          <p id="formStatus" class="overlaytext" style="display:none; margin-top:10px;"></p>
+        </form>
         <p class="overlaytext closeh1tag"> < /h1 > </p>
         <p class="overlaytext closebodytag "> < /body ></p>
         <p class="overlaytext closehtmltag "> < /html ></p>
