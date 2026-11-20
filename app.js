@@ -2,20 +2,26 @@
   if (typeof loadSlim === 'function' && typeof tsParticles !== 'undefined') {
     await loadSlim(tsParticles);
   }
+  
+  // Reduce particle count on mobile for better performance and readability
+  var isMobile = window.innerWidth <= 768;
+  var particleCount = isMobile ? 40 : 80;
+  var linkDistance = isMobile ? 120 : 140;
+  
   await tsParticles.load({
     id: 'particles-js',
     options: {
       fpsLimit: 60,
       background: { color: 'transparent' },
       particles: {
-        number: { value: 100, density: { enable: true, area: 900 } },
+        number: { value: particleCount, density: { enable: true, area: 900 } },
         color: { value: ['#ffffff', '#08fdd8', '#73fbd9'] },
         shape: { type: 'circle' },
         opacity: { value: { min: 0.3, max: 0.7 } },
         size: { value: { min: 1, max: 2.6 } },
         links: {
           enable: true,
-          distance: 150,
+          distance: linkDistance,
           color: '#ffffff',
           opacity: 0.35,
           width: 1
