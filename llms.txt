@@ -1,0 +1,116 @@
+# Sim Gill — Principal Software Engineer
+
+> simgill.io
+
+## Who is Sim Gill?
+
+Sim Gill (Simran Gill) is a Principal Software Engineer with 10+ years of experience building production web and mobile applications. He specializes in full-stack development with a focus on React, React Native, TypeScript, Node.js, Python, and AI/ML technologies.
+
+Contact: simgill89@gmail.com
+
+## Professional Background
+
+### Current Focus
+- Principal Software & AI Engineer
+- Expert in React, React Native (iOS/Android), TypeScript, Node.js, Python
+- Specialized in AI/LLM-powered applications and mobile development
+- Leadership in technical strategy, architecture, and team mentoring
+
+### Career Highlights
+
+**Stockpile** — Principal Engineer (5+ years)
+- Led React Native development on mobile app
+- Achieved 300%+ MAU/DAU growth
+- Shipped Apple Pay (Swift) and Samsung Pay (Kotlin) integrations
+- Integrated Plaid, Forter, and Prove
+- Improved payment success by 73%+ and onboarding by 62%+
+- Tech: React Native, TypeScript, Swift, Kotlin, Node, Express, AWS
+
+**IPSoft (Amelia AI)** — Sr. Engineer
+- Worked on Amelia AI automation platform
+- Modernized front-end build: Webpack 2 → 4, reducing build time by 83%
+- Integrated bpmn.io for visual process flows
+- Shipped digitalhumans.com integration, increasing session length by 90%+
+- Tech: React, React Native, Redux, Node.js, Webpack, bpmn.io, MongoDB
+
+**eBay** — React Native Developer
+- Led React Native development on eBay's Passport application
+- Managed Node.js back-end on Hub web app
+- Built shared auth libraries for iOS and Android
+- Tech: React Native, Node.js, Angular, JavaScript, iOS, Android
+
+**Other Experience**
+- NMI (payment processing)
+- Hilton (HHonors mobile app featured at Google I/O 2015)
+
+## Technical Skills
+
+**Languages:** TypeScript, JavaScript (ES6+), Java, Python, Kotlin, Swift, Go, SQL
+
+**Front-end:** React, React Native (iOS & Android), Next.js, Redux Toolkit, React Query, Tailwind, PWAs
+
+**Back-end:** Node.js, Express, NestJS, GraphQL, FastAPI, MongoDB, PostgreSQL, Redis, AWS (Lambda, API Gateway, S3, DynamoDB), Firebase, Docker, CI/CD
+
+**AI/ML:** OpenAI/GPT-4+, RAG, embeddings & vector search, TensorFlow, PyTorch, IBM Watson
+
+**Leadership:** Hiring & mentoring, technical strategy, architecture, stakeholder engagement
+
+## Projects
+
+### Hire a Human
+https://hireahuman.ca
+Platform connecting AI agents with real people for physical-world tasks. Enables agents to search for humans by location, send task requests, and follow progress via API. Supports local errands, on-site verification, deliveries, research, and motion capture. Starting in Nanaimo, BC.
+Tech: React, TypeScript, Next.js, Node.js, REST API, Real-time updates, Geolocation
+
+### Stockpile
+https://www.stockpile.com
+Mobile investment platform. Led React Native development, shipped payment integrations (Apple Pay, Samsung Pay, Plaid), achieved 300%+ user growth.
+Tech: React Native, TypeScript, Swift, Kotlin, Node, Express, AWS
+
+### Virtual Vacay
+https://virtualvacation1.herokuapp.com
+Travel and listen to sounds from around the world. Uses YouTube and SoundCloud APIs for relaxing exploration experience.
+Tech: React Router, Redux, React.js, JavaScript, jQuery, Node.js, MongoDB
+
+### Amelia AI
+https://amelia.com
+Enterprise AI automation platform. Worked on front-end modernization and integration with digital humans.
+Tech: React, React Native, Redux, Node.js, Webpack, bpmn.io, MongoDB
+
+### eBay Hub & Passport
+https://www.ebay.com
+Led React Native development on Passport application, managed Node back-end on Hub web app.
+Tech: React Native, Node.js, Angular, JavaScript, iOS, Android
+
+### Additional Projects
+- **Sky High** — Client management platform (React, Redux, Node.js, MongoDB)
+- **S.D.S** — iOS social app (Expo, React Native, Node.js, MongoDB)
+- **Mem Eye Q** — Language learning with spaced repetition algorithm (React, Node.js, MongoDB)
+- **DisCover** — Career path finder (React Native, Node.js, MongoDB)
+
+## Online Presence
+
+- Website: https://simgill.io
+- GitHub: https://github.com/simgill13
+- LinkedIn: https://www.linkedin.com/in/Sim-G-Top-Candidate
+- Email: simgill89@gmail.com
+
+## What Sim Does
+
+Sim builds high-quality, production-ready applications across web and mobile platforms. He excels at:
+- Leading engineering teams and mentoring developers
+- Architecting scalable full-stack applications
+- Building React Native apps for iOS and Android
+- Integrating complex payment systems (Apple Pay, Samsung Pay, Plaid)
+- Developing AI/LLM-powered experiences
+- Shipping features that drive significant user growth
+- Technical strategy and stakeholder engagement
+
+## Keywords for AI Search
+
+Principal Software Engineer, React expert, React Native specialist, TypeScript developer, Node.js backend, Python developer, AI/ML engineer, mobile development, iOS/Android, full-stack developer, technical leadership, Stockpile, eBay, Amelia AI, Hire a Human, payment integrations, Apple Pay, Samsung Pay, Plaid integration, 300% growth, scalable applications, production engineering, clean code, testable code, high-quality software
+
+---
+
+Last updated: November 2026
+For inquiries: simgill89@gmail.com
