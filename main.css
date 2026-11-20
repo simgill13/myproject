@@ -1648,10 +1648,16 @@ font-family: 'Source Sans Pro', sans-serif;
     display: none;
   }
   .middle{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-evenly !important;
+    flex-wrap: nowrap !important;
     text-align:center;
-    min-width: 40%;
-    min-height: 70%;
-    background-color: #181818
+    min-width: 82%;
+    height: 70px;
+    background-color: #181818;
+    padding: 0;
   }
   .right{
     display: none;
@@ -2440,51 +2446,7 @@ a {
   transition: all 0.3s ease;
 }
 
-.about-ctas {
-  display: flex;
-  gap: 15px;
-  margin-top: 25px;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-}
-
-.about-cta-btn {
-  background: linear-gradient(135deg, rgba(8, 253, 216, 0.1), rgba(6, 219, 192, 0.05));
-  border: 2px solid #08fdd8;
-  color: #08fdd8;
-  padding: 12px 28px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
-}
-
-.about-cta-btn:hover {
-  background: linear-gradient(135deg, #08fdd8, #06dbc0);
-  color: #1a1a1a;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(8, 253, 216, 0.4);
-}
-
-@media (max-width: 768px) {
-  .about-ctas {
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 60px;
-  }
-  
-  .about-cta-btn {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .about-ctas {
-    margin-bottom: 80px;
-  }
-}
+/* About CTA buttons removed per user request */
 
 /* Enhanced project cards with better hover state */
 .projectholder {
