@@ -283,22 +283,6 @@ html{
   .workIconDiv:active, .contactIconDiv:active {
     background: transparent !important;
   }
-  
-  /* Force icons to always show on mobile, never text labels */
-  .homeIconDiv .fa-home:before, .aboutIconDiv .fa-user-secret:before,
-  .skillsIconDiv .fa-code:before, .workIconDiv .fa-picture-o:before,
-  .contactIconDiv .fa-envelope-o:before {
-    content: normal !important;
-  }
-  
-  /* Ensure icon font displays */
-  .homeIconDiv .fa-home, .aboutIconDiv .fa-user-secret,
-  .skillsIconDiv .fa-code, .workIconDiv .fa-picture-o,
-  .contactIconDiv .fa-envelope-o {
-    display: inline-block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
 }
 
 /*.grey{
