@@ -1532,10 +1532,7 @@ font-family: 'Source Sans Pro', sans-serif;
     padding: 0;
   }
   .right{
-    text-align: center;
-    min-width: 12%;
-    height: 62px;
-    background-color: #181818;
+    display: none;
   }
   .sLogoPic{
     margin-top: 0px;
@@ -2067,6 +2064,10 @@ body .dot {
     justify-content: space-evenly !important;
     flex: 1;
     height: 62px;
+  }
+  
+  .right {
+    display: none;
   }
   
   .homeIconDiv, .aboutIconDiv, .skillsIconDiv, .workIconDiv, .contactIconDiv {
