@@ -707,6 +707,38 @@ $('#contactForm').on('submit', function(e) {
       });
       updateActivity();
     }
+    
+    // Track CTA clicks
+    window.trackCTAClick = function(ctaLabel) {
+      if (!session.ctaClicks) {
+        session.ctaClicks = [];
+      }
+      session.ctaClicks.push({
+        label: ctaLabel,
+        section: currentSection,
+        timestamp: Date.now(),
+        secondsIntoSession: Math.round((Date.now() - session.startTime) / 1000)
+      });
+      updateActivity();
+    };
+    
+    // Track form submissions
+    window.trackFormSubmission = function(formType, name, company, email, message) {
+      if (!session.formSubmissions) {
+        session.formSubmissions = [];
+      }
+      session.formSubmissions.push({
+        type: formType,
+        name: name,
+        company: company,
+        email: email || 'not provided',
+        message: message || '',
+        section: currentSection,
+        timestamp: Date.now(),
+        secondsIntoSession: Math.round((Date.now() - session.startTime) / 1000)
+      });
+      updateActivity();
+    };
 
     // Track scroll depth
     function updateScrollDepth() {
@@ -841,8 +873,35 @@ $('#contactForm').on('submit', function(e) {
       var ctx = getClientContext();
       
       var sendIt = function(geo) {
+        // Build visitor identifier for subject line
+        var visitorName = '';
+        if (session.formSubmissions && session.formSubmissions.length > 0) {
+          var latestForm = session.formSubmissions[session.formSubmissions.length - 1];
+          visitorName = latestForm.name + ' (' + latestForm.company + ') ';
+        }
+        
         // Build comprehensive email message
-        var messageText = 'Session Summary:\n\n' +
+        var messageText = '';
+        
+        // Add form submission info at top if present
+        if (session.formSubmissions && session.formSubmissions.length > 0) {
+          messageText += '📋 FORM SUBMISSIONS:\n\n';
+          session.formSubmissions.forEach(function(form) {
+            messageText += '• ' + form.type + ' at +' + form.secondsIntoSession + 's\n';
+            messageText += '  Name: ' + form.name + '\n';
+            messageText += '  Company: ' + form.company + '\n';
+            if (form.email !== 'not provided') {
+              messageText += '  Email: ' + form.email + '\n';
+            }
+            if (form.message) {
+              messageText += '  Message: ' + form.message + '\n';
+            }
+            messageText += '\n';
+          });
+          messageText += '---\n\n';
+        }
+        
+        messageText += 'Session Summary:\n\n' +
           '⏱️ Total Time: ' + summary.totalTimeFormatted + '\n' +
           '👁️ Active Viewing: ' + summary.activeTimeFormatted + '\n' +
           '🔁 Visitor Type: ' + summary.isReturning + '\n' +
@@ -850,6 +909,14 @@ $('#contactForm').on('submit', function(e) {
           '📜 Max Scroll Depth: ' + summary.maxScrollDepth + '%\n' +
           '🔄 Tab Visibility: ' + summary.visibilityChangeCount + ' changes — ' + summary.visibilityLog + '\n' +
           '🔗 Outbound Clicks: ' + summary.outboundClickCount + ' — ' + summary.outboundSummary;
+        
+        // Add CTA clicks
+        if (session.ctaClicks && session.ctaClicks.length > 0) {
+          var ctaSummary = session.ctaClicks.map(function(cta) {
+            return cta.label + ' (+' + cta.secondsIntoSession + 's)';
+          }).join(', ');
+          messageText += '\n🎯 CTA Clicks: ' + session.ctaClicks.length + ' — ' + ctaSummary;
+        }
         
         if (session.utmParams && Object.keys(session.utmParams).length > 0) {
           messageText += '\n📢 UTM Source: ' + summary.utmSource;
@@ -866,10 +933,11 @@ $('#contactForm').on('submit', function(e) {
         }
         
         var emailData = {
-          _subject: '📊 Session Report · simgill.io · ' + summary.totalTimeFormatted +
+          _subject: (visitorName ? '👤 ' + visitorName : '📊 Session Report · simgill.io · ') + 
+            summary.totalTimeFormatted +
             (session.isReturningVisitor ? ' · Returning' : ' · New'),
           _template: 'table',
-          name: 'Session Tracker',
+          name: visitorName || 'Session Tracker',
           email: 'noreply+session@simgill.io',
           message: messageText,
           
@@ -905,6 +973,28 @@ $('#contactForm').on('submit', function(e) {
         if (session.outboundClicks.length > 0) {
           emailData.outbound_links_clicked = session.outboundClicks.map(function(c) {
             return c.label;
+          }).join(', ');
+        }
+        
+        // Add CTA click details
+        if (session.ctaClicks && session.ctaClicks.length > 0) {
+          emailData.cta_clicks = session.ctaClicks.length;
+          emailData.ctas_clicked = session.ctaClicks.map(function(c) {
+            return c.label;
+          }).join(', ');
+        }
+        
+        // Add form submission details
+        if (session.formSubmissions && session.formSubmissions.length > 0) {
+          emailData.form_submissions = session.formSubmissions.length;
+          var latestForm = session.formSubmissions[session.formSubmissions.length - 1];
+          emailData.visitor_name = latestForm.name;
+          emailData.visitor_company = latestForm.company;
+          if (latestForm.email !== 'not provided') {
+            emailData.visitor_email = latestForm.email;
+          }
+          emailData.forms_submitted = session.formSubmissions.map(function(f) {
+            return f.type;
           }).join(', ');
         }
         
@@ -1016,4 +1106,218 @@ $('#contactForm').on('submit', function(e) {
   }
 
   $(window).on('load', setupSessionTracking);
+})();
+
+
+/* ==========================================================
+   Modal Handling & Form Tracking
+   ========================================================== */
+
+(function() {
+  // Modal management
+  var resumeModal = document.getElementById('resumeModal');
+  var bookChatModal = document.getElementById('bookChatModal');
+  var resumeBtn = document.getElementById('resumeBtn');
+  var bookChatBtn = document.getElementById('bookChatBtn');
+  
+  var formSubmissions = [];
+  
+  // Open modals
+  if (resumeBtn) {
+    resumeBtn.addEventListener('click', function() {
+      resumeModal.classList.add('active');
+      resumeModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Track CTA click in session
+      if (typeof trackCTAClick === 'function') {
+        trackCTAClick('Resume Download CTA');
+      }
+    });
+  }
+  
+  if (bookChatBtn) {
+    bookChatBtn.addEventListener('click', function() {
+      bookChatModal.classList.add('active');
+      bookChatModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      // Track CTA click in session
+      if (typeof trackCTAClick === 'function') {
+        trackCTAClick('Book Chat CTA');
+      }
+    });
+  }
+  
+  // Close modals
+  function closeModal(modal) {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  
+  // Close on X button or overlay click
+  [resumeModal, bookChatModal].forEach(function(modal) {
+    if (!modal) return;
+    
+    var closeBtn = modal.querySelector('.modal-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        closeModal(modal);
+      });
+    }
+    
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal(modal);
+      }
+    });
+  });
+  
+  // ESC key to close
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (resumeModal && resumeModal.classList.contains('active')) {
+        closeModal(resumeModal);
+      }
+      if (bookChatModal && bookChatModal.classList.contains('active')) {
+        closeModal(bookChatModal);
+      }
+    }
+  });
+  
+  // Resume form submission
+  var resumeForm = document.getElementById('resumeForm');
+  if (resumeForm) {
+    resumeForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      var name = document.getElementById('resumeName').value;
+      var company = document.getElementById('resumeCompany').value;
+      var email = document.getElementById('resumeEmail').value || 'not provided';
+      
+      // Track form submission
+      formSubmissions.push({
+        type: 'resume_download',
+        name: name,
+        company: company,
+        email: email,
+        timestamp: Date.now()
+      });
+      
+      if (typeof trackFormSubmission === 'function') {
+        trackFormSubmission('Resume Download', name, company, email);
+      }
+      
+      // TODO: Replace 'PLACEHOLDER-RESUME.pdf' with actual resume filename
+      // when resume PDF is added to the repository
+      var resumePath = 'PLACEHOLDER-RESUME.pdf'; // <-- UPDATE THIS PATH
+      
+      // Check if actual resume exists, otherwise show message
+      fetch(resumePath, { method: 'HEAD' })
+        .then(function(response) {
+          if (response.ok) {
+            // Resume exists, trigger download
+            var link = document.createElement('a');
+            link.href = resumePath;
+            link.download = 'Sim-Gill-Resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            closeModal(resumeModal);
+            resumeForm.reset();
+          } else {
+            // Resume not found
+            alert('Thank you! Your information has been recorded. The resume will be sent to you shortly.');
+            closeModal(resumeModal);
+            resumeForm.reset();
+          }
+        })
+        .catch(function() {
+          // Resume not found or error
+          alert('Thank you! Your information has been recorded. The resume will be sent to you shortly.');
+          closeModal(resumeModal);
+          resumeForm.reset();
+        });
+    });
+  }
+  
+  // Book chat form submission
+  var bookChatForm = document.getElementById('bookChatForm');
+  if (bookChatForm) {
+    bookChatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      var submitBtn = bookChatForm.querySelector('.modal-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      
+      var name = document.getElementById('chatName').value;
+      var email = document.getElementById('chatEmail').value;
+      var company = document.getElementById('chatCompany').value || 'not provided';
+      var message = document.getElementById('chatMessage').value || 'no message';
+      
+      // Track form submission
+      formSubmissions.push({
+        type: 'book_chat',
+        name: name,
+        email: email,
+        company: company,
+        message: message,
+        timestamp: Date.now()
+      });
+      
+      if (typeof trackFormSubmission === 'function') {
+        trackFormSubmission('Book Chat', name, company, email, message);
+      }
+      
+      // Send immediate email to Simran with chat request
+      var emailData = {
+        _subject: '📅 Chat Request from ' + name + ' (' + company + ')',
+        _template: 'table',
+        _captcha: 'false',
+        name: name,
+        email: email,
+        company: company,
+        message: message,
+        request_type: 'book_chat',
+        timestamp: new Date().toString()
+      };
+      
+      $.ajax({
+        type: 'POST',
+        url: 'https://formsubmit.co/ajax/simgill89@gmail.com',
+        data: $.param(emailData),
+        dataType: 'json',
+        headers: { 'Accept': 'application/json' },
+        success: function() {
+          // Show confirmation
+          bookChatForm.style.display = 'none';
+          document.getElementById('bookChatConfirmation').style.display = 'block';
+          
+          setTimeout(function() {
+            closeModal(bookChatModal);
+            bookChatForm.style.display = 'block';
+            document.getElementById('bookChatConfirmation').style.display = 'none';
+            bookChatForm.reset();
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Request Chat';
+          }, 3000);
+        },
+        error: function() {
+          alert('Thank you! Your request has been recorded and Sim will reach out soon.');
+          closeModal(bookChatModal);
+          bookChatForm.reset();
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Request Chat';
+        }
+      });
+    });
+  }
+  
+  // Expose form submissions for session tracking
+  window.getFormSubmissions = function() {
+    return formSubmissions;
+  };
 })();
