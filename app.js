@@ -508,10 +508,10 @@ $('#contactForm').on('submit', function(e) {
   });
 
   /* ==========================================================
-     Visitor engagement ping — auto-fires once per day per
-     visitor when they explore 2+ sections. Sends through the
-     same FormSubmit endpoint as the contact form, but tagged
-     with a different subject so it filters cleanly in Gmail.
+     Comprehensive Session Tracking — captures full visitor
+     journey including sections, scroll depth, tab visibility,
+     and timing. Sends ONE email per session when it ends
+     (page unload or 30min idle timeout).
      ========================================================== */
 
   function isLocalDev() {
@@ -520,14 +520,42 @@ $('#contactForm').on('submit', function(e) {
            location.protocol === 'file:';
   }
 
-  function setupVisitorPing() {
+  function generateSessionId() {
+    return 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  function setupSessionTracking() {
     if (isLocalDev()) return;
 
-    var DAILY_KEY = 'sg_visitor_ping_date';
-    var SESSION_KEY = 'sg_visitor_ping_session';
-    var today = new Date().toDateString();
-    if (sessionStorage.getItem(SESSION_KEY) === '1') return;
-    if (localStorage.getItem(DAILY_KEY) === today) return;
+    var SESSION_ID_KEY = 'sg_session_id';
+    var SESSION_SENT_KEY = 'sg_session_sent';
+    var IDLE_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+
+    // Check if session already sent email
+    if (sessionStorage.getItem(SESSION_SENT_KEY) === '1') return;
+
+    // Get or create session ID
+    var sessionId = sessionStorage.getItem(SESSION_ID_KEY);
+    if (!sessionId) {
+      sessionId = generateSessionId();
+      sessionStorage.setItem(SESSION_ID_KEY, sessionId);
+    }
+
+    var session = {
+      id: sessionId,
+      startTime: Date.now(),
+      lastActivityTime: Date.now(),
+      activeViewingTime: 0,
+      lastVisibleTime: Date.now(),
+      isVisible: !document.hidden,
+      sections: [],
+      sectionTimes: {},
+      sectionScrollDepths: {},
+      visibilityChanges: [],
+      maxScrollDepth: 0,
+      initialReferrer: document.referrer || 'direct',
+      initialUrl: location.href
+    };
 
     var sectionMap = {
       homeid: 'home',
@@ -538,69 +566,235 @@ $('#contactForm').on('submit', function(e) {
       btnanimation: 'contact'
     };
 
-    var visited = ['home'];
-    var times = { home: Date.now() };
-    var fired = false;
+    var idleTimer = null;
+    var currentSection = 'home';
 
-    function record(section) {
-      if (visited.indexOf(section) === -1) {
-        visited.push(section);
-        times[section] = Date.now();
+    // Track section visit
+    function visitSection(section) {
+      if (session.sections.indexOf(section) === -1) {
+        session.sections.push(section);
       }
-      if (visited.length >= 2 && !fired) {
-        fired = true;
-        sessionStorage.setItem(SESSION_KEY, '1');
-        localStorage.setItem(DAILY_KEY, today);
-        // small debounce to capture additional clicks before sending
-        setTimeout(function () { firePing(visited.slice(), times); }, 1500);
+      if (!session.sectionTimes[section]) {
+        session.sectionTimes[section] = {
+          firstVisit: Date.now(),
+          lastVisit: Date.now(),
+          totalTime: 0,
+          viewCount: 1
+        };
+      } else {
+        session.sectionTimes[section].lastVisit = Date.now();
+        session.sectionTimes[section].viewCount++;
+      }
+      currentSection = section;
+      updateActivity();
+    }
+
+    // Track scroll depth
+    function updateScrollDepth() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var scrollPercent = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 100;
+      
+      session.maxScrollDepth = Math.max(session.maxScrollDepth, scrollPercent);
+      
+      if (!session.sectionScrollDepths[currentSection]) {
+        session.sectionScrollDepths[currentSection] = scrollPercent;
+      } else {
+        session.sectionScrollDepths[currentSection] = Math.max(
+          session.sectionScrollDepths[currentSection],
+          scrollPercent
+        );
+      }
+      updateActivity();
+    }
+
+    // Update activity timestamp and reset idle timer
+    function updateActivity() {
+      var now = Date.now();
+      session.lastActivityTime = now;
+      
+      // Update active viewing time if visible
+      if (session.isVisible && session.lastVisibleTime) {
+        session.activeViewingTime += now - session.lastVisibleTime;
+        session.lastVisibleTime = now;
+      }
+      
+      // Reset idle timer
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(sendSessionEmail, IDLE_TIMEOUT);
+    }
+
+    // Handle visibility changes
+    function handleVisibilityChange() {
+      var now = Date.now();
+      var wasVisible = session.isVisible;
+      session.isVisible = !document.hidden;
+      
+      session.visibilityChanges.push({
+        time: now,
+        visible: session.isVisible,
+        elapsedSeconds: Math.round((now - session.startTime) / 1000)
+      });
+      
+      if (wasVisible && !session.isVisible) {
+        // Tab became hidden - stop counting active time
+        session.activeViewingTime += now - session.lastVisibleTime;
+      } else if (!wasVisible && session.isVisible) {
+        // Tab became visible - start counting again
+        session.lastVisibleTime = now;
+      }
+      
+      updateActivity();
+    }
+
+    // Build session summary for email
+    function buildSessionSummary() {
+      var now = Date.now();
+      var totalTimeSeconds = Math.round((now - session.startTime) / 1000);
+      var activeTimeSeconds = Math.round(session.activeViewingTime / 1000);
+      
+      if (session.isVisible && session.lastVisibleTime) {
+        activeTimeSeconds += Math.round((now - session.lastVisibleTime) / 1000);
+      }
+      
+      var formatTime = function(seconds) {
+        var mins = Math.floor(seconds / 60);
+        var secs = seconds % 60;
+        if (mins > 0) return mins + 'm ' + secs + 's';
+        return secs + 's';
+      };
+      
+      var sectionSummary = session.sections.map(function(section) {
+        var sTime = session.sectionTimes[section];
+        var timeSpent = Math.round((sTime.lastVisit - sTime.firstVisit) / 1000);
+        var scroll = session.sectionScrollDepths[section] || 0;
+        var visits = sTime.viewCount;
+        return section + ' (' + visits + 'x, ' + scroll + '% scroll, ~' + formatTime(timeSpent) + ')';
+      }).join(' → ');
+      
+      var visibilityLog = session.visibilityChanges.map(function(vc) {
+        return (vc.visible ? '👁 visible' : '🚪 hidden') + ' at +' + vc.elapsedSeconds + 's';
+      }).join(', ');
+      
+      return {
+        totalTimeSeconds: totalTimeSeconds,
+        totalTimeFormatted: formatTime(totalTimeSeconds),
+        activeTimeSeconds: activeTimeSeconds,
+        activeTimeFormatted: formatTime(activeTimeSeconds),
+        sectionCount: session.sections.length,
+        sectionSummary: sectionSummary,
+        maxScrollDepth: session.maxScrollDepth,
+        visibilityChangeCount: session.visibilityChanges.length,
+        visibilityLog: visibilityLog || 'no tab switches'
+      };
+    }
+
+    // Send the session email
+    function sendSessionEmail() {
+      // Prevent duplicate sends
+      if (sessionStorage.getItem(SESSION_SENT_KEY) === '1') return;
+      sessionStorage.setItem(SESSION_SENT_KEY, '1');
+      
+      if (idleTimer) clearTimeout(idleTimer);
+      
+      var summary = buildSessionSummary();
+      var ctx = getClientContext();
+      
+      var sendIt = function(geo) {
+        var messageText = 'Session Summary:\n\n' +
+          '⏱️ Total Time: ' + summary.totalTimeFormatted + '\n' +
+          '👁️ Active Viewing: ' + summary.activeTimeFormatted + '\n' +
+          '📍 Sections: ' + summary.sectionCount + ' — ' + summary.sectionSummary + '\n' +
+          '📜 Max Scroll Depth: ' + summary.maxScrollDepth + '%\n' +
+          '🔄 Tab Visibility: ' + summary.visibilityChangeCount + ' changes — ' + summary.visibilityLog;
+        
+        var emailData = {
+          _subject: '📊 Session Report · simgill.io · ' + summary.totalTimeFormatted,
+          _template: 'table',
+          name: 'Session Tracker',
+          email: 'noreply+session@simgill.io',
+          message: messageText,
+          
+          // Structured fields for filtering/analysis
+          session_id: session.id,
+          total_time_seconds: summary.totalTimeSeconds,
+          active_time_seconds: summary.activeTimeSeconds,
+          sections_visited: session.sections.join(', '),
+          section_count: summary.sectionCount,
+          max_scroll_depth: summary.maxScrollDepth,
+          visibility_changes: summary.visibilityChangeCount,
+          initial_referrer: session.initialReferrer,
+          initial_url: session.initialUrl
+        };
+        
+        var payload = $.extend({}, emailData, ctx, geo || {});
+        
+        // Use sendBeacon for reliability during unload, fallback to AJAX
+        var data = $.param(payload);
+        var url = 'https://formsubmit.co/ajax/simgill89@gmail.com';
+        
+        if (navigator.sendBeacon && typeof Blob !== 'undefined') {
+          var blob = new Blob([data], { type: 'application/x-www-form-urlencoded' });
+          navigator.sendBeacon(url, blob);
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            dataType: 'json',
+            headers: { 'Accept': 'application/json' },
+            async: false
+          });
+        }
+      };
+      
+      if (typeof fetchIpGeo === 'function') {
+        fetchIpGeo().then(sendIt, function() { sendIt(null); });
+      } else {
+        sendIt(null);
       }
     }
 
-    Object.keys(sectionMap).forEach(function (id) {
+    // Wire up event listeners
+    
+    // Section navigation
+    visitSection('home');
+    Object.keys(sectionMap).forEach(function(id) {
       var el = document.getElementById(id);
       if (el) {
-        el.addEventListener('click', function () { record(sectionMap[id]); });
+        el.addEventListener('click', function() {
+          visitSection(sectionMap[id]);
+        });
       }
     });
+    
+    // Scroll tracking
+    var scrollThrottle = null;
+    window.addEventListener('scroll', function() {
+      if (scrollThrottle) return;
+      scrollThrottle = setTimeout(function() {
+        updateScrollDepth();
+        scrollThrottle = null;
+      }, 250);
+    }, { passive: true });
+    
+    // Visibility tracking
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Mouse/keyboard activity
+    ['click', 'keydown', 'mousemove', 'touchstart'].forEach(function(event) {
+      document.addEventListener(event, function() {
+        updateActivity();
+      }, { passive: true, capture: true });
+    });
+    
+    // Session end: page unload
+    window.addEventListener('pagehide', sendSessionEmail, false);
+    window.addEventListener('beforeunload', sendSessionEmail, false);
+    
+    // Start idle timer
+    idleTimer = setTimeout(sendSessionEmail, IDLE_TIMEOUT);
   }
 
-  function firePing(sections, times) {
-    if (typeof getClientContext !== 'function') return;
-    var ctx = getClientContext();
-
-    var sendIt = function (geo) {
-      var startTime = times.home;
-      var path = sections.map(function (s) {
-        var elapsed = Math.round((times[s] - startTime) / 1000);
-        return s + ' (+' + elapsed + 's)';
-      }).join(' \u2192 ');
-
-      var data = $.extend({
-        _subject: '\uD83D\uDC40 Visitor on simgill.io \u00B7 ' + sections.length + ' sections',
-        _template: 'table',
-        name: 'Auto Visitor Ping',
-        email: 'noreply+visitor@simgill.io',
-        message: 'Visitor explored ' + sections.length + ' sections: ' + path,
-        sections_visited: sections.join(', '),
-        visit_path: path,
-        ping_type: 'auto_visitor'
-      }, ctx, geo || {});
-
-      $.ajax({
-        type: 'POST',
-        url: 'https://formsubmit.co/ajax/simgill89@gmail.com',
-        data: $.param(data),
-        dataType: 'json',
-        headers: { 'Accept': 'application/json' }
-      });
-    };
-
-    if (typeof fetchIpGeo === 'function') {
-      fetchIpGeo().then(sendIt, function () { sendIt(null); });
-    } else {
-      sendIt(null);
-    }
-  }
-
-  $(window).on('load', setupVisitorPing);
+  $(window).on('load', setupSessionTracking);
 })();
