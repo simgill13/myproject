@@ -187,11 +187,28 @@ html{
   font-size: 25px !important;
   display: block !important;
   color: #00FFD7;
-
-    
 }
 
+/* Explicit FontAwesome icon content - ensures icons render at all DPRs */
+.fa-home::before {
+  content: "\f015 " !important;
+}
 
+.fa-user-secret::before {
+  content: "\f21b " !important;
+}
+
+.fa-code::before {
+  content: "\f121 " !important;
+}
+
+.fa-picture-o::before {
+  content: "\f03e " !important;
+}
+
+.fa-envelope-o::before {
+  content: "\f003 " !important;
+}
 
 /*=====on hover icons change to text */
 
