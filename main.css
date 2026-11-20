@@ -1921,28 +1921,32 @@ body .dot {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   z-index: 10000;
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-overlay.active {
-  display: flex;
+  display: flex !important;
 }
 
 .modal-content {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  border: 1px solid rgba(8, 253, 216, 0.2);
-  border-radius: 12px;
-  padding: 40px;
-  max-width: 500px;
-  width: 90%;
+  background: #1a1a1a;
+  border: 1px solid rgba(8, 253, 216, 0.3);
+  border-radius: 16px;
+  padding: 32px 24px;
+  max-width: 480px;
+  width: 92%;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  animation: slideUp 0.4s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(8, 253, 216, 0.1);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: 20px auto;
 }
 
 @keyframes fadeIn {
@@ -1952,54 +1956,68 @@ body .dot {
 
 @keyframes slideUp {
   from {
-    transform: translateY(30px);
+    transform: translateY(40px) scale(0.96);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
 
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 32px;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(8, 253, 216, 0.2);
+  color: #08fdd8;
+  font-size: 24px;
   cursor: pointer;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
   line-height: 1;
   padding: 0;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
 }
 
 .modal-close:hover {
-  color: #08fdd8;
-  transform: rotate(90deg);
+  background: rgba(8, 253, 216, 0.1);
+  border-color: #08fdd8;
+  transform: scale(1.1);
+}
+
+.modal-close:active {
+  transform: scale(0.95);
 }
 
 .modal-title {
   color: #08fdd8;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
+  padding-right: 40px;
   font-family: 'Poppins', sans-serif;
+  line-height: 1.3;
 }
 
 .modal-subtitle {
-  color: #aaa;
+  color: #999;
   font-size: 14px;
-  margin: 0 0 30px 0;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .form-group {
@@ -2010,63 +2028,84 @@ body .dot {
 
 .form-group label {
   color: #08fdd8;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .form-group input,
 .form-group textarea {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(8, 253, 216, 0.2);
-  border-radius: 6px;
-  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(8, 253, 216, 0.25);
+  border-radius: 8px;
+  padding: 14px 16px;
   color: #fff;
   font-size: 15px;
   font-family: 'Open Sans', sans-serif;
   transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #666;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: #08fdd8;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 3px rgba(8, 253, 216, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 3px rgba(8, 253, 216, 0.15);
 }
 
 .form-group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .modal-submit-btn {
   background: linear-gradient(135deg, #08fdd8, #06dbc0);
-  color: #1a1a1a;
+  color: #000;
   border: none;
-  border-radius: 6px;
-  padding: 14px 32px;
+  border-radius: 8px;
+  padding: 16px 32px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Poppins', sans-serif;
-  margin-top: 10px;
+  margin-top: 8px;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(8, 253, 216, 0.3);
 }
 
 .modal-submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(8, 253, 216, 0.4);
+  box-shadow: 0 6px 25px rgba(8, 253, 216, 0.5);
+}
+
+.modal-submit-btn:active {
+  transform: translateY(0);
 }
 
 .modal-submit-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
 .modal-confirmation {
   text-align: center;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .confirmation-icon {
@@ -2078,31 +2117,36 @@ body .dot {
   align-items: center;
   justify-content: center;
   font-size: 48px;
-  color: #1a1a1a;
+  color: #000;
   margin: 0 auto 20px;
-  animation: scaleIn 0.5s ease;
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: bold;
 }
 
 @keyframes scaleIn {
-  from {
-    transform: scale(0);
+  0% {
+    transform: scale(0) rotate(-180deg);
     opacity: 0;
   }
-  to {
-    transform: scale(1);
+  100% {
+    transform: scale(1) rotate(0deg);
     opacity: 1;
   }
 }
 
 .modal-confirmation h3 {
   color: #08fdd8;
-  font-size: 24px;
-  margin: 0 0 10px 0;
+  font-size: 22px;
+  margin: 0 0 12px 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
 }
 
 .modal-confirmation p {
   color: #aaa;
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* ============================================
@@ -2189,14 +2233,98 @@ a {
 }
 
 /* Improved mobile experience */
-@media (max-width: 768px) {
+/* Mobile modal styles */
+@media (max-width: 480px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  
   .modal-content {
-    padding: 30px 20px;
-    max-width: 95%;
+    padding: 28px 20px 24px;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+    animation: slideUpMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  @keyframes slideUpMobile {
+    from {
+      transform: translateY(100%);
+      opacity: 0.8;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .modal-close {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
   }
   
   .modal-title {
-    font-size: 24px;
+    font-size: 20px;
+    padding-right: 35px;
+  }
+  
+  .modal-subtitle {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    gap: 6px;
+  }
+  
+  .form-group label {
+    font-size: 12px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+  
+  .modal-submit-btn {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+  
+  .modal-confirmation {
+    padding: 30px 15px;
+  }
+  
+  .confirmation-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 40px;
+  }
+  
+  .modal-confirmation h3 {
+    font-size: 20px;
+  }
+  
+  .modal-confirmation p {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .modal-content {
+    padding: 32px 24px;
+    max-width: 90%;
+  }
+  
+  .modal-title {
+    font-size: 22px;
   }
   
   .cta-primary, .cta-secondary, .cta-tertiary {
@@ -2309,4 +2437,122 @@ a {
 .demobtn:hover, .githubbtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(8, 253, 216, 0.3);
+}
+
+/* ============================================
+   Mobile Fixes for Projects Section
+   ============================================ */
+
+/* Fix project layout on mobile screens */
+@media (max-width: 480px) {
+  .projectholder {
+    margin-bottom: 50px;
+    padding-bottom: 20px;
+  }
+  
+  .phleftside, .phrightside {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 20px;
+  }
+  
+  .phleftside {
+    margin-bottom: 20px;
+  }
+  
+  .phrightside {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-top: 20px;
+  }
+  
+  .projectimagesdesktop, .projectimagesmobile {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin-top: 20px;
+  }
+  
+  .workdescriptiontext {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  .techstacktitle {
+    margin-top: 15px;
+  }
+  
+  .techstacktext {
+    margin-top: 8px;
+    margin-bottom: 15px;
+    line-height: 1.8;
+    word-wrap: break-word;
+  }
+  
+  .workstext {
+    font-size: 28px;
+  }
+  
+  .worktext {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .demobtn, .githubbtn {
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  
+  /* Ensure stats grid works on mobile */
+  .stats-grid {
+    gap: 10px;
+  }
+  
+  .stat {
+    min-width: 70px;
+    padding: 8px 10px;
+  }
+  
+  .stat-num {
+    font-size: 18px;
+  }
+  
+  .stat-label {
+    font-size: 9px;
+  }
+}
+
+/* Medium mobile screens (360-430px) */
+@media (min-width: 360px) and (max-width: 430px) {
+  .projectholder {
+    margin-bottom: 40px;
+  }
+  
+  .workdescriptiontext {
+    font-size: 15px;
+  }
+  
+  .projectimagesdesktop, .projectimagesmobile {
+    max-width: 260px;
+  }
+}
+
+/* Larger phones (431px and up to tablet) */
+@media (min-width: 431px) and (max-width: 767px) {
+  .projectholder {
+    margin-bottom: 60px;
+  }
+  
+  .phleftside, .phrightside {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 30px;
+  }
+  
+  .projectimagesdesktop, .projectimagesmobile {
+    max-width: 320px;
+  }
 }
