@@ -827,6 +827,12 @@ border: .5px solid rgba(242,242,242,0.03);
   scroll-margin-top: 70px;
 }
 
+@media (max-width: 768px) {
+  #homesection, #aboutsection, #skillssection, #worksection, #contactsection {
+    scroll-margin-top: 75px;
+  }
+}
+
 #aboutsection,#skillssection,#worksectionprojectsdiv,#contactwallasection{
   -webkit-animation-duration: 3s;
   -webkit-animation-delay: 3s;
@@ -1044,7 +1050,7 @@ border: .5px solid rgba(242,242,242,0.03);
 .projectholder{
   box-sizing: border-box;
   width: 100%;
-  
+  scroll-margin-top: 80px;
   /*border: solid white;*/
 }
 
@@ -1402,7 +1408,7 @@ font-family: 'Source Sans Pro', sans-serif;
     /*border: solid blue;*/
   }
   .homecontainer3{
-    padding-top: 60px;
+    padding-top: 90px;
     padding-left: 0px;
     
   }
@@ -2513,14 +2519,15 @@ a {
 }
 
 .work-bullets li {
-  color: #ccc;
-  font-size: 15px;
-  font-weight: 200;
+  color: #e0e0e0 !important;
+  font-size: 15px !important;
+  font-weight: 300 !important;
   line-height: 26px;
   margin-bottom: 12px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   position: relative;
   padding-left: 20px;
+  text-align: left;
 }
 
 .work-bullets li:before {
@@ -2530,6 +2537,13 @@ a {
   position: absolute;
   left: 0;
   top: -2px;
+}
+
+@media (max-width: 768px) {
+  .work-bullets li {
+    font-size: 14px !important;
+    line-height: 24px;
+  }
 }
 
 /* Better CTA visibility */
