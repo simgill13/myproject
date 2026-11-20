@@ -273,6 +273,59 @@ html{
 
 /* Prevent layout shift and text-swap on mobile touch */
 @media (max-width: 768px) {
+  /* Ensure top header nav is visible and icons display */
+  .nav {
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    background-color: #181818;
+  }
+  
+  .left {
+    display: inline-block;
+    vertical-align: top;
+    min-width: 10%;
+  }
+  
+  .middle {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-evenly !important;
+    flex-wrap: nowrap !important;
+    min-width: 82%;
+    height: 70px;
+    background-color: #181818;
+    padding: 0;
+  }
+  
+  .right {
+    display: none;
+  }
+  
+  .homeIconDiv, .aboutIconDiv, .skillsIconDiv, .workIconDiv, .contactIconDiv {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 1;
+    max-width: 56px;
+    min-height: 48px;
+    height: 48px;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .homeIconDiv i, .aboutIconDiv i, .skillsIconDiv i, .workIconDiv i, .contactIconDiv i {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    height: 100%;
+  }
+  
   .homeIconDiv.activeColor, .aboutIconDiv.activeColor, .skillsIconDiv.activeColor, 
   .workIconDiv.activeColor, .contactIconDiv.activeColor {
     transform: none !important;
@@ -1968,10 +2021,40 @@ body .dot {
   }
 }
 
-/* Desktop narrow range - sidebar still visible */
+/* Desktop narrow range - ensure nav icons visible */
 @media (min-width: 769px) and (max-width: 1000px) {
   .cta-buttons {
     margin-left: 10%;
+  }
+  
+  /* Ensure nav is in top header mode with icons visible */
+  .nav {
+    width: 100%;
+    height: 62px;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    background-color: #181818;
+  }
+  
+  .middle {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-evenly !important;
+    min-width: 82%;
+    height: 70px;
+  }
+  
+  .homeIconDiv, .aboutIconDiv, .skillsIconDiv, .workIconDiv, .contactIconDiv {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 22px;
+  }
+  
+  .homeIconDiv i, .aboutIconDiv i, .skillsIconDiv i, .workIconDiv i, .contactIconDiv i {
+    display: flex !important;
   }
 }
 
@@ -1980,13 +2063,15 @@ body .dot {
     flex-direction: column;
     width: 100%;
     justify-content: center;
-    margin: 30px 0;
+    margin: 30px auto;
     align-items: center;
+    padding: 0 10%;
   }
   
   .cta-primary, .cta-secondary, .cta-tertiary {
     width: 100%;
     max-width: 300px;
+    min-width: 200px;
   }
 }
 
