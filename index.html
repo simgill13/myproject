@@ -168,7 +168,11 @@
         <p class="overlaytext stext typing-line" data-typed="I'm <span id=&quot;sletter&quot; class=&quot;specials&quot;>S</span>im,"> </p>
         <p class="overlaytext webdevtext typing-line" data-typed="Principal Software &amp; <span class=&quot;ai-glow&quot;>AI</span> Engineer"> </p>
         <p class="overlaytext descriptionline typing-line" data-typed="React / React Native (Swift &amp; Kotlin) / TypeScript / Node / Python / AI"> </p>
-        <button id="btnanimation" class="overlaytext contactmebtn animated jello" > Contact me </button>
+        <div class="cta-buttons">
+          <button id="resumeBtn" class="overlaytext cta-primary animated pulse" title="Download my resume">Get my resume</button>
+          <button id="bookChatBtn" class="overlaytext cta-secondary animated pulse" title="Book a quick chat">Book 15-min chat</button>
+          <button id="btnanimation" class="overlaytext cta-tertiary animated jello">Contact me</button>
+        </div>
         <p class="overlaytext closeh1tag"> < /h1 > </p>
         <p class="overlaytext closebodytag "> < /body ></p>
         <p class="overlaytext closehtmltag "> < /html ></p>
@@ -186,10 +190,14 @@
         <p class="overlaytext bodyText"> < body > </p>
         <p class="overlaytext h1texttag bounce"> < h1 > </p>
         <p class="overlaytext aboutsectiontext animated fadeInRight"> About Me </p>
-        <p class="overlaytext abtext"> I'm a Principal Software Engineer with 10+ years building production web &#38 mobile experiences — from Information Architect to leading engineering teams.</p>
-        <p class="overlaytext abtext"> Most recently I spent 5+ years at Stockpile as Principal Engineer, scaling the React Native app to +300% MAU/DAU growth and shipping Apple Pay, Samsung Pay, Plaid, Forter, and Prove integrations.</p>
-        <p class="overlaytext abtext"> Previously at IPSoft (Amelia AI), eBay, NMI, and Hilton — where our HHonors mobile app was featured at Google I/O 2015.</p>
-        <p class="overlaytext abtext"> Today I focus on clean, testable, high-quality code across React, React Native, TypeScript, Node, and AI/LLM-powered experiences. Let's build something great. </p>
+        <p class="overlaytext abtext highlight-stat"> I'm a Principal Software Engineer with <strong class="stat-highlight">10+ years</strong> building production web &#38 mobile experiences — from Information Architect to leading engineering teams.</p>
+        <p class="overlaytext abtext"> Most recently I spent <strong class="stat-highlight">5+ years at Stockpile</strong> as Principal Engineer, scaling the React Native app to <strong class="stat-highlight">+300% MAU/DAU growth</strong> and shipping Apple Pay, Samsung Pay, Plaid, Forter, and Prove integrations.</p>
+        <p class="overlaytext abtext"> Previously at <strong>IPSoft (Amelia AI)</strong>, <strong>eBay</strong>, NMI, and <strong>Hilton</strong> — where our HHonors mobile app was <span class="achievement-badge">featured at Google I/O 2015</span>.</p>
+        <p class="overlaytext abtext"> Today I focus on clean, testable, high-quality code across React, React Native, TypeScript, Node, and AI/LLM-powered experiences. <span class="cta-inline">Let's build something great.</span> </p>
+        <div class="about-ctas">
+          <button class="about-cta-btn" onclick="document.getElementById('resumeBtn').click()">View Resume</button>
+          <button class="about-cta-btn" onclick="document.getElementById('bookChatBtn').click()">Let's Talk</button>
+        </div>
         <p class="overlaytext closeh1tag"> < /h1 > </p>
         <p class="overlaytext closebodytag "> < /body ></p>
         <p class="overlaytext closehtmltag "> < /html ></p>
@@ -502,6 +510,63 @@
 
 
 
+</div>
+
+<!-- Resume Download Modal -->
+<div id="resumeModal" class="modal-overlay" role="dialog" aria-labelledby="resumeModalTitle" aria-hidden="true">
+  <div class="modal-content modal-animate-in">
+    <button class="modal-close" aria-label="Close modal">&times;</button>
+    <h2 id="resumeModalTitle" class="modal-title">Get Sim's Resume</h2>
+    <p class="modal-subtitle">Enter your details to download the resume</p>
+    <form id="resumeForm" class="modal-form">
+      <div class="form-group">
+        <label for="resumeName">Name *</label>
+        <input type="text" id="resumeName" name="name" placeholder="Your name" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="resumeCompany">Company *</label>
+        <input type="text" id="resumeCompany" name="company" placeholder="Your company" required autocomplete="organization">
+      </div>
+      <div class="form-group">
+        <label for="resumeEmail">Email (optional)</label>
+        <input type="email" id="resumeEmail" name="email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <button type="submit" class="modal-submit-btn">Download Resume</button>
+    </form>
+  </div>
+</div>
+
+<!-- Book Chat Modal -->
+<div id="bookChatModal" class="modal-overlay" role="dialog" aria-labelledby="bookChatModalTitle" aria-hidden="true">
+  <div class="modal-content modal-animate-in">
+    <button class="modal-close" aria-label="Close modal">&times;</button>
+    <h2 id="bookChatModalTitle" class="modal-title">Book a 15-Minute Chat</h2>
+    <p class="modal-subtitle">Let's discuss your project or opportunity</p>
+    <form id="bookChatForm" class="modal-form">
+      <div class="form-group">
+        <label for="chatName">Name *</label>
+        <input type="text" id="chatName" name="name" placeholder="Your name" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="chatEmail">Email *</label>
+        <input type="email" id="chatEmail" name="email" placeholder="your@email.com" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="chatCompany">Company (optional)</label>
+        <input type="text" id="chatCompany" name="company" placeholder="Your company" autocomplete="organization">
+      </div>
+      <div class="form-group">
+        <label for="chatMessage">Message (optional)</label>
+        <textarea id="chatMessage" name="message" placeholder="What would you like to discuss?" rows="3"></textarea>
+      </div>
+      <button type="submit" class="modal-submit-btn">Request Chat</button>
+    </form>
+    <div id="bookChatConfirmation" class="modal-confirmation" style="display:none;">
+      <div class="confirmation-icon">✓</div>
+      <h3>Request Received!</h3>
+      <p>Sim will reach out to you shortly to schedule the chat.</p>
+    </div>
+  </div>
 </div>
 
 
