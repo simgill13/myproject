@@ -80,7 +80,7 @@ html{
 .particles-js-canvas-el{
     z-index: 1;
     position: fixed;
-
+    pointer-events: none;
 }
 .js-count-particles{
   font-size: 1.1em;
@@ -271,7 +271,7 @@ html{
   color: #4D4D4E;
 }
 
-/* Prevent layout shift on mobile touch */
+/* Prevent layout shift and text-swap on mobile touch */
 @media (max-width: 768px) {
   .homeIconDiv.activeColor, .aboutIconDiv.activeColor, .skillsIconDiv.activeColor, 
   .workIconDiv.activeColor, .contactIconDiv.activeColor {
@@ -282,6 +282,22 @@ html{
   .homeIconDiv:active, .aboutIconDiv:active, .skillsIconDiv:active, 
   .workIconDiv:active, .contactIconDiv:active {
     background: transparent !important;
+  }
+  
+  /* Force icons to always show on mobile, never text labels */
+  .homeIconDiv .fa-home:before, .aboutIconDiv .fa-user-secret:before,
+  .skillsIconDiv .fa-code:before, .workIconDiv .fa-picture-o:before,
+  .contactIconDiv .fa-envelope-o:before {
+    content: normal !important;
+  }
+  
+  /* Ensure icon font displays */
+  .homeIconDiv .fa-home, .aboutIconDiv .fa-user-secret,
+  .skillsIconDiv .fa-code, .workIconDiv .fa-picture-o,
+  .contactIconDiv .fa-envelope-o {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 
@@ -806,6 +822,17 @@ border: .5px solid rgba(242,242,242,0.03);
   -webkit-animation-iteration-count: infinite;
 }
 
+/* Prevent content from scrolling under fixed header */
+#homesection, #aboutsection, #skillssection, #worksection, #contactsection {
+  scroll-margin-top: 70px;
+}
+
+@media (max-width: 768px) {
+  #homesection, #aboutsection, #skillssection, #worksection, #contactsection {
+    scroll-margin-top: 75px;
+  }
+}
+
 #aboutsection,#skillssection,#worksectionprojectsdiv,#contactwallasection{
   -webkit-animation-duration: 3s;
   -webkit-animation-delay: 3s;
@@ -1023,7 +1050,7 @@ border: .5px solid rgba(242,242,242,0.03);
 .projectholder{
   box-sizing: border-box;
   width: 100%;
-  
+  scroll-margin-top: 80px;
   /*border: solid white;*/
 }
 
@@ -1153,6 +1180,7 @@ border: .5px solid rgba(242,242,242,0.03);
 .overlaytext{
   color: #515152;
   font-family: 'Great Vibes', cursive;
+  pointer-events: none;
 }
 .bodyText{
   margin-top:  5%;
@@ -1380,7 +1408,7 @@ font-family: 'Source Sans Pro', sans-serif;
     /*border: solid blue;*/
   }
   .homecontainer3{
-    padding-top: 60px;
+    padding-top: 90px;
     padding-left: 0px;
     
   }
@@ -1717,6 +1745,7 @@ font-family: 'Source Sans Pro', sans-serif;
   overflow: hidden; /* to prevent scrollbar appearing */
   width: 100vw;
   height: 100vh;
+  pointer-events: none;
 }
 
 .slide-in.from-left {
@@ -1888,6 +1917,8 @@ body .dot {
   justify-content: center;
   margin: 30px 0;
   align-items: center;
+  position: relative;
+  z-index: 10;
 }
 
 .cta-primary, .cta-secondary, .cta-tertiary {
@@ -1901,6 +1932,8 @@ body .dot {
   font-family: 'Poppins', sans-serif;
   position: relative;
   overflow: hidden;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .cta-primary {
@@ -1968,10 +2001,12 @@ body .dot {
   animation: fadeIn 0.3s ease;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  pointer-events: none;
 }
 
 .modal-overlay.active {
   display: flex !important;
+  pointer-events: auto;
 }
 
 .modal-content {
@@ -2410,6 +2445,8 @@ a {
   border-radius: 4px;
   border: 1px solid rgba(8, 253, 216, 0.3);
   font-weight: 500;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .cta-inline {
@@ -2423,6 +2460,7 @@ a {
   display: flex;
   gap: 15px;
   margin-top: 25px;
+  margin-bottom: 40px;
   flex-wrap: wrap;
 }
 
@@ -2450,10 +2488,17 @@ a {
   .about-ctas {
     flex-direction: column;
     width: 100%;
+    margin-bottom: 60px;
   }
   
   .about-cta-btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-ctas {
+    margin-bottom: 80px;
   }
 }
 
@@ -2474,14 +2519,15 @@ a {
 }
 
 .work-bullets li {
-  color: #ccc;
-  font-size: 15px;
-  font-weight: 200;
+  color: #e0e0e0 !important;
+  font-size: 15px !important;
+  font-weight: 300 !important;
   line-height: 26px;
   margin-bottom: 12px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   position: relative;
   padding-left: 20px;
+  text-align: left;
 }
 
 .work-bullets li:before {
@@ -2491,6 +2537,13 @@ a {
   position: absolute;
   left: 0;
   top: -2px;
+}
+
+@media (max-width: 768px) {
+  .work-bullets li {
+    font-size: 14px !important;
+    line-height: 24px;
+  }
 }
 
 /* Better CTA visibility */
