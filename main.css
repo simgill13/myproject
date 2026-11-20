@@ -1904,8 +1904,8 @@ body .dot {
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
-  justify-content: center;
-  margin: 30px 0;
+  justify-content: flex-start;
+  margin: 30px 0 30px 18%;
   align-items: center;
   position: relative;
   z-index: 10;
@@ -1957,12 +1957,31 @@ body .dot {
 .cta-tertiary:hover {
   border-color: #08fdd8;
   color: #08fdd8;
+  transform: translateY(-2px);
+}
+
+/* Prevent animation-induced rotation/skew on desktop */
+@media (min-width: 769px) {
+  #btnanimation.animated.jello {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Desktop narrow range - sidebar still visible */
+@media (min-width: 769px) and (max-width: 1000px) {
+  .cta-buttons {
+    margin-left: 10%;
+  }
 }
 
 @media (max-width: 768px) {
   .cta-buttons {
     flex-direction: column;
     width: 100%;
+    justify-content: center;
+    margin: 30px 0;
+    align-items: center;
   }
   
   .cta-primary, .cta-secondary, .cta-tertiary {
